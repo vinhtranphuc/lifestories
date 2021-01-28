@@ -1,0 +1,81 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	th:with="hasHeaderBottomLine = true"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/home-layout}">
+<head th:include="~{fragments/home/head :: title('Contact Us')}">
+<style layout:fragment="styles">
+</style>
+<th:block layout:fragment="others">
+<link href="/home/styles/ckeditor.css" rel="stylesheet" />
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container container-single container-single-magazine penci_sidebar right-sidebar penci-enable-lightbox">
+			<div id="main" class="penci-main-sticky-sidebar">
+				<div class="theiaStickySidebar">
+					<input type="hidden" id="postId" th:value="${post_id}"></input>
+					<article class="post type-post status-publish hentry">
+						<div class="header-standard header-classic single-header">
+							<h1 class="post-title single-post-title entry-title">CONTACT US</h1>
+						</div>
+						<div class="post-entry blockquote-style-2">
+							<div class="inner-post-entry entry-content">
+								<div class="ck-content" th:utext="${contact_us}">
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+			</div>
+		<div th:replace="~{fragments/home/right-sidebar}"></div>
+			<!-- END CONTAINER -->
+	</div>
+	</th:block>
+</body>
+</html>
+<script type="text/javascript" src="/home/scripts/socialShare.js"></script>
+<script>
+$(document).ready(function() {
+	var tmpContactForm = $('#tmpContactForm').html();
+	$(".inner-post-entry.entry-content").append(tmpContactForm);
+	$("#contact-submit").click(function(e) {
+		saveContact();
+	})
+});
+function saveContact() {
+	var name = $("#contact-name").val();
+	var email = $("#contact-email").val();
+	var subject = $("#contact-subject").val();
+	var message = $("#contact-message").val();
+	$.ajax({
+		type: "POST"
+		,url: "/home/api/contact-us/save"
+		,headers: {
+			"Content-Type": "application/json"
+			,"X-HTTP-Method-Override": "POST"
+		}
+		,data: JSON.stringify({
+			name:name
+			,email:email
+			,subject:subject
+			,message:message
+		})
+		,dataType: "json"
+		,success: function(data) {
+			if(data.status == 200) {
+				alertSuccess(data.message);
+				$("#contact-name").val("");
+				$("#contact-email").val("");
+				$("#contact-subject").val("");
+				$("#contact-message").val("");
+			}
+		}
+		,error: function(xhr) {
+	        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	alertWarning(xhr.responseJSON.message);
+	        }
+		}
+	});
+}
+</script>

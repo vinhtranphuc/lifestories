@@ -1,0 +1,21 @@
+<aside id="penci_latest_news_widget-2" class="widget penci_latest_news_widget">
+	<h4 class="widget-title penci-border-arrow"><span class="inner-arrow">Recent Posts</span></h4>
+	<ul id="penci-latestwg-6391" class="side-newsfeed penci-feed-2columns penci-2columns-feed">
+		<li th:each="post:${recentPosts.list}" class="penci-feed">
+			<div class="side-item">
+				<div class="side-image">
+					<a class="penci-image-holder penci-lazy small-fix-size" rel="bookmark"
+						th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.small_image_path+');'}"
+						th:href="${'/home/post/'+post.post_id}"
+						th:title="${post.title}"></a>
+				</div>
+				<div class="side-item-text">
+					<h4 class="side-title-post">
+						<a th:href="${'/home/post/'+post.post_id}" th:title="${post.title}" th:text="${post.title}"></a>
+					</h4>
+					<span class="side-item-meta"><time class="entry-date published" th:text="${post.published_at}"></time></span>
+				</div>
+			</div>
+		</li>
+	</ul>
+</aside>

@@ -1,0 +1,174 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/cms-layout}">
+<head th:include="~{fragments/cms/head :: title('Social Setting')}">
+    <style layout:fragment="styles">
+    	.ck-social {
+   		    height: 80%;
+		    width: 80%;
+		    margin-top: 6%;
+    	}
+    </style>
+    <th:block layout:fragment="others">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/cms/main"><i class="fas fa-cogs"></i>&ensp;Page Setting</a></li>
+            <li class="breadcrumb-item"><a href="/cms/overview">Social Setting</a></li>
+        </ol>
+    </nav>
+    <div class="row" style="min-height: 85vh;">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel h-100">
+                <div class="x_title">
+                    <h2>Social Setting</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                    	<div class="col-md-2">
+                    	</div>
+                    	<div class="col-md-8 form-horizontal">
+                    		<div class="form-group">
+                    			<label class="control-label" for="facebook-url"><h4>Facebook</h4></label>
+                    			<div class="row">
+                    				<div class="col-md-1 text-center">
+                    					<input type="checkbox" class="ck-social" id="ck-facebook" th:checked="${socials.facebook_actived=='1'}?'true':'false'"></input>
+                    				</div>
+                    				<div class="col-md-11">
+                    					<input type="text" class="form-control" id="facebook-url" placeholder="Facebook url" th:value="${socials.facebook_url}"></input>
+                    				</div>
+                    			</div>
+                    		</div>
+                    		<div class="form-group">
+                    			<label class="control-label" for="twitter-url"><h4>Twitter</h4></label>
+                    			<div class="row">
+                    				<div class="col-md-1 text-center">
+                    					<input type="checkbox" class="ck-social" id="ck-twitter" th:checked="${socials.twitter_actived=='1'}?'true':'false'"></input>
+                    				</div>
+                    				<div class="col-md-11">
+                    					<input type="text" class="form-control" id="twitter-url" placeholder="Twitter url" th:value="${socials.twitter_url}"></input>
+                    				</div>
+                    			</div>
+                    		</div>
+                    		<div class="form-group">
+                    			<label class="control-label" for="instagram-url"><h4>Instagram</h4></label>
+                    			<div class="row">
+                    				<div class="col-md-1 text-center">
+                    					<input type="checkbox" class="ck-social" id="ck-instagram" th:checked="${socials.instagram_actived=='1'}?'true':'false'"></input>
+                    				</div>
+                    				<div class="col-md-11">
+                    					<input type="text" class="form-control" id="instagram-url" placeholder="Instagram url" th:value="${socials.instagram_url}"></input>
+                    				</div>
+                    			</div>
+                    		</div>
+                    		<div class="form-group">
+                    			<label class="control-label" for="pinterest-url"><h4>Pinterest</h4></label>
+                    			<div class="row">
+                    				<div class="col-md-1 text-center">
+                    					<input type="checkbox" class="ck-social" id="ck-pinterest" th:checked="${socials.pinterest_actived=='1'}?'true':'false'"></input>
+                    				</div>
+                    				<div class="col-md-11">
+                    					<input type="text" class="form-control" id="pinterest-url" placeholder="Pinterest url" th:value="${socials.pinterest_url}"></input>
+                    				</div>
+                    			</div>
+                    		</div>
+                    		<div class="form-group">
+                    			<label class="control-label" for="youtube-url"><h4>Youtube</h4></label>
+                    			<div class="row">
+                    				<div class="col-md-1 text-center">
+                    					<input type="checkbox" class="ck-social" id="ck-youtube" th:checked="${socials.youtube_actived=='1'}?'true':'false'"></input>
+                    				</div>
+                    				<div class="col-md-11">
+                    					<input type="text" class="form-control" id="youtube-url" placeholder="Youtube url" th:value="${socials.youtube_url}"></input>
+                    				</div>
+                    			</div>
+                    		</div>
+                    		<div class="form-group">
+                    			<label class="control-label" for="flickr-url"><h4>Flickr</h4></label>
+                    			<div class="row">
+                    				<div class="col-md-1 text-center">
+                    					<input type="checkbox" class="ck-social" id="ck-flickr" th:checked="${socials.flickr_actived=='1'}?'true':'false'"></input>
+                    				</div>
+                    				<div class="col-md-11">
+                    					<input type="text" class="form-control" id="flickr-url" placeholder="Flickr url" th:value="${socials.flickr_url}"></input>
+                    				</div>
+                    			</div>
+                    		</div>
+                    		<div class="form-group text-center">
+                    			<button type="button" class="btn btn-success active w-25 blur-color" id="save">Save</button>
+                    		</div>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+$(document).ready(function() {
+	$('#save').click(function() {
+		saveSocials();
+	})
+});
+function saveSocials() {
+	var facebookUrl = $('#facebook-url').val();
+	var ckFacebook = $('#ck-facebook').prop('checked')?1:0;
+	
+	var twitterUrl = $('#twitter-url').val();
+	var ckTwitter = $('#ck-twitter').prop('checked')?1:0;
+	
+	var instagramUrl = $('#instagram-url').val();
+	var ckInstagram = $('#ck-instagram').prop('checked')?1:0;
+	
+	var pinterestUrl = $('#pinterest-url').val();
+	var ckPinterest = $('#ck-pinterest').prop('checked')?1:0;
+	
+	var youtubeUrl = $('#youtube-url').val();
+	var ckYoutube = $('#ck-youtube').prop('checked')?1:0;
+	
+	var flickrUrl = $('#flickr-url').val();
+	var ckFlickr = $('#ck-flickr').prop('checked')?1:0;
+	
+	$("#overlay").show();
+	$.ajax({
+		type: "POST"
+		,url: "/cms/api/page-info/social/save"
+		,headers: {
+			"Content-Type": "application/json"
+			,"X-HTTP-Method-Override": "POST"
+		}
+		,data: JSON.stringify({
+			facebook_url:facebookUrl
+			,facebook_actived:ckFacebook
+			,twitter_url:twitterUrl
+			,twitter_actived:ckTwitter
+			,instagram_url:instagramUrl
+			,instagram_actived:ckInstagram
+			,pinterest_url:pinterestUrl
+			,pinterest_actived:ckPinterest
+			,youtube_url:youtubeUrl
+			,youtube_actived:ckYoutube
+			,flickr_url:flickrUrl
+			,flickr_actived:ckFlickr
+		})
+		,dataType: "json"
+		,success: function(data) {
+			$("#overlay").hide();
+			if(data.status == 200) {
+				alertSuccess(data.message);
+			}
+		}
+		,error: function(xhr) {
+			$("#overlay").hide();
+	        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	alertWarning(xhr.responseJSON.message);
+	        }
+		}
+	});
+}
+</script>

@@ -1,0 +1,45 @@
+<head th:fragment="title(name)">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="/home/images/favicon.png">
+	
+	<meta property="og:url" th:content="${#httpServletRequest.requestURI}" />
+	<meta property="og:type"               content="article" />
+	<th:block th:if="${isPost == true}">
+		<meta property="og:title"              th:content="${title}" />
+		<meta property="og:description"        th:content="${summary}" />
+		<meta property="og:image"              th:content="${postImages[0].image_path}" />
+	</th:block>
+	<th:block th:unless="${isPost == true}">
+		<meta property="og:type"               content="article" />
+		<meta property="og:title"              th:content="${name}" />
+		<meta property="og:description"        content="Life Stories" />
+		<meta property="og:image"              content="/home/images/pageAvatar.jpg" />
+	</th:block>
+		
+	<title th:text="${name}"></title>
+	<link id="penci-fonts-css" rel="stylesheet" href="/home/styles/penci-fonts.css"></noscript>
+	<link rel='stylesheet' id='penci_style-css' href='/home/styles/penci_style.css' type='text/css' media='all' />
+	<link id="penci-font-awesomeold-css" rel="stylesheet" href="/home/styles/penci-font-awesomeold.css"></noscript>
+	<link id="penci-font-iconmoon-css" rel="stylesheet" href="/home/styles/penci-font-iconmoon.css"></noscript>
+	<link rel='stylesheet' id='penci-instag-slider-css'
+		href='/home/styles/instag-slider5152.css?ver=1.0' type='text/css'
+		media='all' />
+	<script type='text/javascript' src='/home/scripts/jquery-1.12.4.js'></script>
+	<link href="/home/styles/custom.css" rel="stylesheet" />
+	<link href="/home/styles/ls-custom.css" rel="stylesheet" />
+	
+    <!-- sweetalert2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+    <!-- /sweetalert2 -->
+    
+   	<!-- common -->
+    <script src="/common/js/common.js"></script>
+    <script src="/common/js/alert-utils.js"></script>
+    <!-- common -->
+    
+    <style layout:fragment="styles"></style>
+    <th:block layout:fragment="others"></th:block>
+</head>

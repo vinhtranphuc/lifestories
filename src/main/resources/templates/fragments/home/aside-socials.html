@@ -1,0 +1,23 @@
+<aside id="penci_social_widget-2" class="widget penci_social_widget">
+	<h4 class="widget-title penci-border-arrow"><span class="inner-arrow">Keep in touch</span></h4>
+	<div class="widget-social pc_alignleft remove-circle">
+		<a th:if="${socials.facebook_actived == '1'}" th:href="${socials.facebook_url}"  target="_blank">
+			<i class="fa fa-facebook" style="font-size: 16px"></i><span style="font-size: 13px">Facebook</span>
+		 </a>
+		<a th:if="${socials.instagram_actived == '1'}" th:href="${socials.instagram_url}"  target="_blank">
+			<i class="fa fa-instagram" style="font-size: 16px"></i><span style="font-size: 13px">Instagram</span>
+		</a>
+		<a th:if="${socials.flickr_actived == '1'}" th:href="${socials.flickr_url}"  target="_blank">
+			<i class="fa fa-flickr" style="font-size: 16px"></i><span style="font-size: 13px">Flickr</span>
+		</a>
+		<a th:if="${socials.youtube_actived == '1'}" th:href="${socials.youtube_url}"  target="_blank">
+			<i class="fa fa-youtube-play" style="font-size: 16px"></i><span style="font-size: 13px">Youtube</span>
+		</a>
+		<a th:if="${socials.twitter_actived == '1'}" th:href="${socials.twitter_url}"  target="_blank">
+			<i class="fa fa-twitter" style="font-size: 16px"></i><span style="font-size: 13px">Twitter</span>
+		</a>
+		<a th:if="${socials.pinterest_actived == '1'}" th:href="${socials.pinterest_url}"  target="_blank">
+			<i class="fa fa-pinterest" style="font-size: 16px"></i><span style="font-size: 13px">Pinterest</span>
+		</a>
+	</div>
+</aside>

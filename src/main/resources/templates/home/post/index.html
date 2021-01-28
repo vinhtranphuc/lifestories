@@ -1,0 +1,140 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	th:with="hasHeaderBottomLine = true"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/home-layout}">
+<head th:include="~{fragments/home/head :: title(${title})}">
+<style layout:fragment="styles">
+</style>
+<th:block layout:fragment="others">
+<link href="/home/styles/ckeditor.css" rel="stylesheet" />
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container container-single container-single-magazine penci_sidebar right-sidebar penci-enable-lightbox">
+			<div id="main" class="penci-main-sticky-sidebar">
+				<div class="theiaStickySidebar">
+					<input type="hidden" id="postId" th:value="${post_id}"></input>
+					<article class="post type-post status-publish hentry">
+						<div class="header-standard header-classic single-header">
+							<div class="penci-standard-cat">
+								<span class="cat"><a class="penci-cat-name"
+									th:href="${'/home/posts/category?categoryId='+category_id}"
+									rel="category tag" th:text="${category_name}"></a></span>
+							</div>
+							<h1 class="post-title single-post-title entry-title" th:text="${title}"></h1>
+							<div class="penci-hide-tagupdated">
+								<span class="author-italic author vcard">by <a
+									class="url fn n" /href="${'/home/posts/user?userId='+user_id}" th:text="${created_username}"></a></span>
+								<time class="entry-date published" th:text="${published_at}"></time>
+							</div>
+							<div class="post-box-meta-single">
+								<span class="author-post byline"><span
+									class="author vcard">written by
+									<a class="author-url url fn n" th:href="${'/home/posts/user?userId='+user_id}" th:text="${created_username}"></a></span></span>
+								<span><time class="entry-date published" th:text="${published_at}"></time></span>
+							</div>
+						</div>
+						<div class="post-image">
+							<div th:if="${has_images_ontop}"
+								class="penci-owl-carousel penci-owl-carousel-slider penci-nav-visible"
+								data-auto="false" data-lazy="false">
+								<figure th:each="image:${postImages}">
+									<img class="owl-lazy" th:src="${image.image_path}"></img>
+								</figure>
+							</div>
+						</div>
+						<div class="post-entry blockquote-style-2">
+							<div class="inner-post-entry entry-content">
+								<div class="ck-content" th:utext="${content}">
+								</div>
+							</div>
+							<div class="post-tags">
+									<a th:each="tag:${postTags}" th:href="${'/home/posts/tag?tagId='+tag.tag_id}" rel="tag" th:text="${tag.tag}"></a>
+							</div>
+						</div>
+						<div class="tags-share-box center-box">
+							<span class="single-comment-o">
+								<i class="fa fa-comment-o"></i>
+							 	<i id="commentsCnt">0</i><i>comments</i>
+							 </span>
+							<div class="post-share">
+								<span class="count-number-like" id="like-cnt" th:text="${like_cnt}"></span>
+									<a class="penci-post-like single-like-button" id="post-like" title="Like"><i th:class="${likeSession == 'like'?'fa fa-heart-o':'fa fa-heart'}"></i>
+									</a>
+								<div class="list-posts-share" id="post-share-socials" th:title="${title}" th:summary="${summary}" th:image="${postImages[0].image_path}" >
+									<a target="_blank" rel="nofollow" class="share s_facebook">
+										<i class="fa fa-facebook"></i><span class="dt-share">Facebook</span>
+									</a>
+									<a target="_blank" rel="nofollow" class="share s_twitter">
+										<i class="fa fa-twitter"></i><span class="dt-share">Twitter</span>
+									</a>
+									<!-- <a data-pin-do="none" rel="nofollow noreferrer noopener" class="share s_pinterest">
+										<i class="fa fa-pinterest"></i><span class="dt-share">Pinterest</span>
+									</a> -->
+								</div>
+							</div>
+						</div>
+						<div class="post-related">
+							<div class="post-title-box">
+								<h4 class="post-box-title">You may also like</h4>
+							</div>
+							<div
+								class="penci-owl-carousel penci-owl-carousel-slider penci-related-carousel"
+								data-lazy="true" data-item="3" data-desktop="3" data-tablet="2"
+								data-tabsmall="2" data-auto="false" data-speed="300"
+								data-dots="true" data-nav="false">
+								<div th:each="post:${suggestPosts}" class="item-related">
+									<a class="related-thumb penci-image-holder owl-lazy"
+										th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+										th:href="${'/home/post/'+post.post_id}"
+										th:title="${post.title}"> </a>
+									<h3>
+										<a th:href="${'/home/post/'+post.post_id}" th:text="${post.title}"></a>
+									</h3>
+									<span class="date"><time class="entry-date published" th:text="${post.published_at}"></time></span>
+								</div>
+							</div>
+						</div>
+						<div class="post-comments" id="comments">
+							<div id="post-comment" class='comments'>
+							</div>
+							<div id='comments_pagination'></div>
+							<div id="respond" class="comment-respond" commentParentId="0">
+								<h3 id="reply-title" class="comment-reply-title">
+									<span>Leave a Comment</span>
+									<small><a rel="nofollow" id="cancel-comment-reply" style="display:none">Cancel Reply</a></small>
+								</h3>
+								<form id="commentform" class="comment-form">
+									<p class="comment-form-comment">
+										<textarea name="comment" cols="45" rows="8" placeholder="Your Comment" aria-required="true" id="comment-content"></textarea>
+									</p>
+									<p class="comment-form-author" style="width: 49%;">
+										<input name="author" type="text" value="" placeholder="Name*" aria-required='true'  id="comment-name"></input>
+									</p>
+									<p class="comment-form-email" style="width: 49%;">
+										<input name="email" type="text" value="" placeholder="Email*" aria-required='true' id="comment-email"></input>
+									</p>
+									<p class="comment-form-cookies-consent">
+										<input id="save-comment-info" name="wp-comment-cookies-consent" type="checkbox" value="yes"></input>
+										<span class="comment-form-cookies-text" for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</span>
+									</p>
+									<p class="form-submit">
+										<input name="submit" id="submit" class="submit" value="Submit"></input>
+									</p>
+								</form>
+							</div>
+							<!-- #respond -->
+						</div>
+						<!-- end comments div -->
+					</article>
+				</div>
+			</div>
+			<div th:replace="~{fragments/home/right-sidebar}"></div>
+			<!-- END CONTAINER -->
+		</div>
+	</th:block>
+</body>
+</html>
+<script type="text/javascript" src="/home/scripts/socialShare.js"></script>
+<script src="/home/scripts/ls-post.js"></script>

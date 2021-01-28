@@ -1,0 +1,79 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.PageInfoMapper">
+	
+	<select id="selectAboutUs" resultType="Map">
+		SELECT
+			about_us
+		FROM
+			tb_page_info
+	</select>
+	
+	<select id="selectContactUs" resultType="Map">
+		SELECT
+			contact_us
+		FROM
+			tb_page_info
+	</select>
+	
+	<select id="selectSocials" resultType="SocialVO">
+		SELECT
+			facebook_url,
+			facebook_actived,
+			pinterest_url,
+			pinterest_actived,
+			youtube_url,
+			youtube_actived,
+			instagram_url,
+			instagram_actived,
+			twitter_url,
+			twitter_actived,
+			flickr_url,
+			flickr_actived
+		FROM
+			tb_page_info
+	</select>
+
+	<insert id="saveSocials">
+		REPLACE INTO tb_page_info (
+			facebook_url,
+			facebook_actived,
+			pinterest_url,
+			pinterest_actived,
+			youtube_url,
+			youtube_actived,
+			instagram_url,
+			instagram_actived,
+			twitter_url,
+			twitter_actived,
+			flickr_url,
+			flickr_actived
+		) VALUES (
+			#{facebook_url},
+			#{facebook_actived},
+			#{pinterest_url},
+			#{pinterest_actived},
+			#{youtube_url},
+			#{youtube_actived},
+			#{instagram_url},
+			#{instagram_actived},
+			#{twitter_url},
+			#{twitter_actived},
+			#{flickr_url},
+			#{flickr_actived}
+		)
+	</insert>
+	
+	<update id="updateAboutUs">
+		UPDATE tb_page_info
+		SET
+			about_us = #{about_us}
+	</update>
+	
+		
+	<update id="updateContactUs">
+		UPDATE tb_page_info
+		SET
+			contact_us = #{contact_us}
+	</update>
+</mapper>

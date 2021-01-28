@@ -1,0 +1,30 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	th:with="hasHeaderBottomLine = true"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/home-layout}">
+<head th:include="~{fragments/home/head :: title('Resource not found!')}">
+<style layout:fragment="styles">
+</style>
+<th:block layout:fragment="others">
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container page-404">
+			<div class="error-404">
+				<div class="error-image">
+					<img src="/home/images/404.png" alt="404"></img>
+				</div>
+				<p class="sub-heading-text-404">OOPS! Resource not found. Please use search for help</p>
+				<form role="search" method="get" id="searchform" action=/home/posts/search>
+					<div>
+						<input type="text" class="search-input" placeholder="Type and hit enter..." name="key" id="key" ></input>
+					</div>
+				</form>
+				<p class="go-back-home"><a href="/">Back to Home Page</a></p>
+			</div>
+		<!-- END CONTAINER -->
+		</div>
+	</th:block>
+</body>
+</html>

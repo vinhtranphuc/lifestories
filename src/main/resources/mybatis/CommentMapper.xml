@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.CommentMapper">
+
+    <select id="selectCommentsByPostId" resultType="CommentVO">
+        SELECT
+	        c.comment_id,
+	        c.post_id,
+	        c.name,
+	        c.email,
+	        DATE_FORMAT(c.created_at,'%Y-%m-%d %h:%i:%s %p') created_at,
+	        c.updated_at,
+	        @cmt_parent_name := (SELECT name FROM tb_comments WHERE comment_id = c.comment_parent_id) AS cmt_parent_name,
+	        CASE WHEN @cmt_parent_name IS NULL THEN c.comment ELSE CONCAT('@',@cmt_parent_name,': ',c.comment) END AS comment,
+	        c.comment_parent_id
+        FROM
+        	tb_comments c
+        WHERE
+        	c.post_id = #{postId}
+        ORDER BY c.created_at ASC
+    </select>
+    
+    <insert id="insertComment">
+    	INSERT INTO tb_comments (
+    		post_id,
+    		comment_parent_id,
+    		name,
+    		email,
+    		comment,
+    		created_at
+    	) VALUES (
+    		#{post_id},
+    		#{comment_parent_id},
+    		#{name},
+    		#{email},
+    		#{comment},
+    		NOW()
+    	)
+    </insert>
+</mapper>

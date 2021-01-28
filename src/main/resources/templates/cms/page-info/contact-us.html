@@ -1,0 +1,177 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/cms-layout}">
+<head th:include="~{fragments/cms/head :: title('Overview')}">
+    <style layout:fragment="styles">
+    	.ck-editor__editable_inline {
+		    min-height: 700px;
+		}
+    </style>
+    <th:block layout:fragment="others">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/cms/main"><i class="fas fa-cogs"></i>&ensp;Page Setting</a></li>
+            <li class="breadcrumb-item"><a href="/cms/overview">Contact Us</a></li>
+        </ol>
+    </nav>
+    <div class="row" style="min-height: 85vh;">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel h-100">
+                <div class="x_title">
+                    <h2>Contact Us</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <div class="row">
+                    	<div class="col-md-6">
+                    		<div class="form-group row pl-2">
+                    			<button type="button" class="btn btn-success active w-25 blur-color" id="save">Save</button>
+                    		</div>
+                    		<div id="editor" class="x-editor editor" th:utext="${contact_us}">
+					   		 </div>
+                    	</div>
+                    	<div class="col-md-6">
+                    		<div class="form-group row pl-2">
+                    			<button type="button" class="btn btn-danger active w-25 blur-color" id="delete">Delete</button>
+                    		</div>
+                    		<div class="card-box">
+                                <table id="contact-table" class="table jambo_table bulk_action table-bordered"
+                                       style="min-width:100%">
+                                    <thead class="headings">
+	                                    <tr>
+	                                    	<th class="no-sorting text-center">
+					                          <input type="checkbox"></input>
+					                        </th>
+	                                        <th class="text-center">Name</th>
+	                                        <th class="text-center">Email</th>
+	                                        <th class="text-center">Subject</th>
+	                                        <th class="text-center">Message</th>
+	                                        <th class="text-center">Send time</th>
+	                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/cms/js/ckeditor5-build-classic-plus/ckeditor.js"></script>
+<script src="/cms/js/ckeditor5-build-classic-plus/uploadAdapter.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="/cms/js/jquery.amsify.suggestags.js"></script>
+<script>
+var myEditor = {};
+$(document).ready(function(){
+	ClassicEditor.create( document.querySelector('#editor'),{
+	    extraPlugins: [MyCustomUploadAdapterPlugin],
+	}).then( editor => {
+		myEditor = editor;
+	}).catch(err => {
+	    console.error(err.stack);
+	});
+	
+	$("#save").click(function() {
+		saveContactUs();
+	});
+	loadContactTable();
+	$('#delete').click(function() {
+		var contactIdArr = getCheckedKeys($('#contact-table'));
+		deleteContacts(contactIdArr);
+	});
+});
+
+function loadContactTable() {
+	var tableColumns = [
+		{"data" : "contact_id","className" : "text-center","render" : function(data, type, row) {
+				return '<input type="checkbox" value="'+row.contact_id+'" class="filled-in chk-col-primary">';
+		}},
+		{"data" : "name","className" : "text-left", "width": "500px"},
+		{"data" : "email","className" : "text-left", "width": "800px"},
+		{"data" : "subject","className" : "text-left", "width": "800px"},
+		{"data" : "message","className" : "text-left", "width": "1200px"},
+		{"data" : "created_at","className" : "text-left", "width": "800px"},
+	];
+	var url = "/cms/api/page-info/contact-list";
+	var table = $("#contact-table");
+	loadTableAjaxGET(url,table,tableColumns);
+} 
+
+function saveContactUs() {
+	var content = myEditor.getData();
+	$("#overlay").show();
+	$.ajax({
+		type: "PUT"
+		,url: "/cms/api/page-info/edit-contactus"
+		,headers: {
+			"Content-Type": "application/json"
+			,"X-HTTP-Method-Override": "PUT"
+		}
+		,data: JSON.stringify({
+			contact_us:content
+		})
+		,dataType: "json"
+		,success: function(data) {
+			$("#overlay").hide();
+			if(data.status == 200) {
+				alertSuccess(data.message);
+			}
+		}
+		,error: function(xhr) {
+			$("#overlay").hide();
+	        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	alertWarning(xhr.responseJSON.message);
+	        }
+		}
+	});
+}
+
+function deleteContacts(contactIdArr) {
+	if(contactIdArr.length < 1)
+		return;
+	
+	alertConfirm('Do you want to delete?')
+	.then(function(result) {
+		if (result.value) {
+			  $("#overlay").show();
+			  $.ajax({
+					type: "DELETE"
+					,url: "/cms/api/page-info/delete-contacts"
+					,headers: {
+						"Content-Type": "application/json"
+						,"X-HTTP-Method-Override": "DELETE"
+					}
+					,data: JSON.stringify({
+						contactIdArr:contactIdArr
+					})
+					,dataType: "json"
+					,success: function(data) {
+						$("#overlay").hide();
+						if(data.status == 200) {
+							alertSuccess('Delete success!');
+							loadContactTable();
+						}
+					}
+					,error: function(xhr) {
+						$("#overlay").hide();
+				        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+				        	alertWarning(xhr.responseJSON.message);
+				        }
+					}
+				});
+	  	}
+	});
+}
+
+</script>
+

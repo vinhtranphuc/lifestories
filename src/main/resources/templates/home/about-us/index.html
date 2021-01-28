@@ -1,0 +1,39 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	th:with="hasHeaderBottomLine = true"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/home-layout}">
+<head th:include="~{fragments/home/head :: title('About Us')}">
+<style layout:fragment="styles">
+</style>
+<th:block layout:fragment="others">
+<link href="/home/styles/ckeditor.css" rel="stylesheet" />
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container container-single container-single-magazine penci_sidebar right-sidebar penci-enable-lightbox">
+			<div id="main" class="penci-main-sticky-sidebar">
+				<div class="theiaStickySidebar">
+					<input type="hidden" id="postId" th:value="${post_id}"></input>
+					<article class="post type-post status-publish hentry">
+						<div class="header-standard header-classic single-header">
+							<h1 class="post-title single-post-title entry-title">ABOUT US</h1>
+						</div>
+						<div class="post-entry blockquote-style-2">
+							<div class="inner-post-entry entry-content">
+								<div class="ck-content" th:utext="${about_us}">
+								</div>
+							</div>
+						</div>
+						<!-- end comments div -->
+					</article>
+				</div>
+			</div>
+			<div th:replace="~{fragments/home/right-sidebar}"></div>
+			<!-- END CONTAINER -->
+		</div>
+	</th:block>
+</body>
+</html>
+<script type="text/javascript" src="/home/scripts/socialShare.js"></script>
+<script src="/home/scripts/ls-post.js"></script>

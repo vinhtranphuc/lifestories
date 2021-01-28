@@ -1,0 +1,203 @@
+<nav id="navigation" class="header-layout-top menu-style-1 header-1" role="navigation" itemscope
+			itemtype="http://schema.org/SiteNavigationElement">
+			<div class="container">
+				<div class="button-menu-mobile header-1"><i class="fa fa-bars"></i></div>
+				<ul id="menu-menu-2" class="menu">
+					<li
+						class="megamenu menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-126">
+						<a href="/">Home</a>
+					</li>
+					<li
+						class="menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu menu-item-271">
+						<a >Memories</a>
+						<ul class="sub-menu">
+							<li class="menu-item-0">
+								<div class="penci-megamenu">
+									<div class="penci-mega-child-categories">
+										<a class="mega-cat-child cat-active all-style"
+											href="/home/posts/category"
+											data-id="penci-mega-1"><span>All</span></a>
+										<a class="mega-cat-child" href="/home/posts/category?categoryId=1"
+											data-id="penci-mega-2"><span>Life</span></a>
+										<a class="mega-cat-child" href="/home/posts/category?categoryId=2"
+											data-id="penci-mega-3"><span>Photography</span></a>
+										<a class="mega-cat-child" href="/home/posts/category?categoryId=3"
+											data-id="penci-mega-4"><span>Stories</span></a>
+									</div>
+									<div class="penci-content-megamenu">
+										<div class="penci-mega-latest-posts col-mn-4 mega-row-1">
+											<div class="ls-row penci-mega-row penci-mega-1 row-active" categoryId="" pageSize="4" th:page="${postsInit.page}">
+												<div th:if="${postsInit.page != 1}" class="ls-post-pager prev">
+												    <i class="fa fa-angle-left"></i>
+												</div>
+												<div th:each="post:${postsInit.list}" class="penci-mega-post">
+													<div class="penci-mega-thumbnail">
+														<span class="mega-cat-name">
+															<a th:href="${'/home/post/'+post.post_id}" th:text="${post.category_name}"></a>
+														</span>
+														<a class="penci-image-holder penci-lazy"
+															th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+															th:href="${'/home/post/'+post.post_id}"
+															th:title="${post.title}">
+														</a>
+													</div>
+													<div class="penci-mega-meta">
+														<h3 class="post-mega-title">
+															<a th:href="${'/home/post/'+post.post_id}" th:title="${post.title}" th:text="${post.title}"></a>
+														</h3>
+														<p class="penci-mega-date"><time class="entry-date published" th:text="${post.published_at}"></time></p>
+													</div>
+												</div>
+												<div th:if="${postsInit.isLast != true}" class="ls-post-pager next">
+											    	<i class="fa fa-angle-right"></i>
+												</div>
+											</div>
+											<div class="ls-row penci-mega-row penci-mega-2" categoryId="1" pageSize="4" th:page="${lifePostsInit.page}">
+												<div th:if="${lifePostsInit.page != 1}" class="ls-post-pager prev">
+												    <i class="fa fa-angle-left"></i>
+												</div>
+												<div th:each="post:${lifePostsInit.list}" class="penci-mega-post">
+													<div class="penci-mega-thumbnail">
+														<span class="mega-cat-name">
+															<a th:href="${'/home/post/'+post.post_id}" th:text="${post.category_name}"></a>
+														</span>
+														<a class="penci-image-holder penci-lazy"
+															th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+															th:href="${'/home/post/'+post.post_id}"
+															th:title="${post.title}">
+														</a>
+													</div>
+													<div class="penci-mega-meta">
+														<h3 class="post-mega-title">
+															<a th:href="${'/home/post/'+post.post_id}" th:title="${post.title}" th:text="${post.title}"></a>
+														</h3>
+														<p class="penci-mega-date"><time class="entry-date published" th:text="${post.published_at}"></time></p>
+													</div>
+												</div>
+												<div th:if="${lifePostsInit.isLast != true}" class="ls-post-pager next">
+											    	<i class="fa fa-angle-right"></i>
+												</div>
+											</div>
+											<div class="ls-row penci-mega-row penci-mega-3" categoryId="2" pageSize="4" th:page="${photographyPostsInit.page}">
+												<div th:if="${photographyPostsInit.page != 1}" class="ls-post-pager prev">
+												    <i class="fa fa-angle-left"></i>
+												</div>
+												<div th:each="post:${photographyPostsInit.list}" class="penci-mega-post">
+													<div class="penci-mega-thumbnail">
+														<span class="mega-cat-name">
+															<a th:href="${'/home/post/'+post.post_id}" th:text="${post.category_name}"></a>
+														</span>
+														<a class="penci-image-holder penci-lazy"
+															th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+															th:href="${'/home/post/'+post.post_id}"
+															th:title="${post.title}">
+														</a>
+													</div>
+													<div class="penci-mega-meta">
+														<h3 class="post-mega-title">
+															<a href="find-your-way-home/index.html" th:title="${post.title}" th:text="${post.title}"></a>
+														</h3>
+														<p class="penci-mega-date"><time class="entry-date published" th:text="${post.published_at}"></time></p>
+													</div>
+												</div>
+												<div th:if="${photographyPostsInit.isLast != true}" class="ls-post-pager next">
+											    	<i class="fa fa-angle-right"></i>
+												</div>
+											</div>
+											<div class="ls-row penci-mega-row penci-mega-4" categoryId="3" pageSize="4" th:page="${storiesPostsInit.page}">
+												<div th:if="${storiesPostsInit.page != 1}" class="ls-post-pager prev">
+												    <i class="fa fa-angle-left"></i>
+												</div>
+												<div th:each="post:${storiesPostsInit.list}" class="penci-mega-post">
+													<div class="penci-mega-thumbnail">
+														<span class="mega-cat-name">
+															<a th:href="${'/home/post/'+post.post_id}" th:text="${post.category_name}"></a>
+														</span>
+														<a class="penci-image-holder penci-lazy"
+															th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+															th:href="${'/home/post/'+post.post_id}"
+															th:title="${post.title}">
+														</a>
+													</div>
+													<div class="penci-mega-meta">
+														<h3 class="post-mega-title">
+															<a href="find-your-way-home/index.html" th:title="${post.title}" th:text="${post.title}"></a>
+														</h3>
+														<p class="penci-mega-date"><time class="entry-date published" th:text="${post.published_at}"></time></p>
+													</div>
+												</div>
+												<div th:if="${storiesPostsInit.isLast != true}" class="ls-post-pager next">
+											    	<i class="fa fa-angle-right"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li class="menu-item menu-item-type-taxonomy menu-item-object-category penci-mega-menu menu-item-272">
+						<a href="/home/posts/category?categoryId=4">Travel</a>
+						<ul class="sub-menu">
+							<li class="menu-item-0">
+								<div class="penci-megamenu">
+									<div class="penci-content-megamenu">
+										<div class="penci-mega-latest-posts col-mn-5 mega-row-1">
+											<div class="ls-row penci-mega-row penci-mega-5 row-active" categoryId="4" pageSize="5" th:page="${travelPostsInit.page}">
+												<div th:if="${travelPostsInit.page != 1}" class="ls-post-pager prev">
+												    <i class="fa fa-angle-left"></i>
+												</div>
+												<div th:each="post:${travelPostsInit.list}" class="penci-mega-post">
+													<div class="penci-mega-thumbnail">
+														<span class="mega-cat-name">
+															<a th:href="${'/home/post/'+post.post_id}" th:text="${post.category_name}"></a>
+														</span>
+														<a class="penci-image-holder penci-lazy"
+															th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+															th:href="${'/home/post/'+post.post_id}"
+															th:title="${post.title}">
+														</a>
+													</div>
+													<div class="penci-mega-meta">
+														<h3 class="post-mega-title">
+															<a th:href="${'/home/post/'+post.post_id}" th:title="${post.title}" th:text="${post.title}"></a>
+														</h3>
+														<p class="penci-mega-date"><time class="entry-date published" th:text="${post.published_at}"></time></p>
+													</div>
+												</div>
+												<div th:if="${travelPostsInit.isLast != true}" class="ls-post-pager next">
+											    	<i class="fa fa-angle-right"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<!-- <li class="menu-item menu-item-type-custom menu-item-object-custom">
+						<a href="/home/gallery">Gallery</a>
+					</li> -->
+					<li class="menu-item menu-item-type-custom menu-item-object-custom">
+						<a href="/home/about-us">About Us</a>
+					</li>
+					<li class="menu-item menu-item-type-custom menu-item-object-custom">
+						<a href="/home/contact-us">Contact Us</a>
+					</li>
+				</ul>
+				<div id="top-search" class="dfdf">
+					<a class="search-click"><i class="fa fa-search"></i></a>
+					<div class="show-search">
+						<form role="search" method="get" id="searchform" action=/home/posts/search>
+							<div>
+								<input type="text" class="search-input" placeholder="Type and hit enter..." name="key"
+									id="key" />
+							</div>
+						</form> <a class="search-click close-search"><i class="fa fa-close"></i></a>
+					</div>
+				</div>
+				<div class="main-nav-social ">
+					<div th:replace="~{fragments/home/menu-socials}"></div>
+				</div>
+			</div>
+		</nav>

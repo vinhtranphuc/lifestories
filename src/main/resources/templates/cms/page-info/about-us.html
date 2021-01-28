@@ -1,0 +1,96 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/cms-layout}">
+<head th:include="~{fragments/cms/head :: title('Overview')}">
+    <style layout:fragment="styles">
+    	.ck-editor__editable_inline {
+		    min-height: 700px;
+		}
+    </style>
+    <th:block layout:fragment="others">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/cms/main"><i class="fas fa-cogs"></i>&ensp;Page Setting</a></li>
+            <li class="breadcrumb-item"><a href="/cms/overview">About Us</a></li>
+        </ol>
+    </nav>
+    <div class="row" style="min-height: 85vh;">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel h-100">
+                <div class="x_title">
+                    <h2>About Us</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <div class="row">
+                    	<div class="col-md-3">
+                    	</div>
+                    	<div class="col-md-6">
+                    		<div class="form-group row pl-2">
+                    			<button type="button" class="btn btn-success active w-25 blur-color" id="save">Save</button>
+                    		</div>
+                    		<div id="editor" class="x-editor editor" th:utext="${about_us}">
+					   		 </div>
+                    	</div>
+                    	<div class="col-md-3">
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/cms/js/ckeditor5-build-classic-plus/ckeditor.js"></script>
+<script src="/cms/js/ckeditor5-build-classic-plus/uploadAdapter.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="/cms/js/jquery.amsify.suggestags.js"></script>
+<script>
+var myEditor = {};
+$(document).ready(function(){
+	ClassicEditor.create( document.querySelector('#editor'),{
+	    extraPlugins: [MyCustomUploadAdapterPlugin],
+	}).then( editor => {
+		myEditor = editor;
+	}).catch(err => {
+	    console.error(err.stack);
+	});
+	$("#save").click(function() {
+		saveAboutUs();
+	})
+});
+
+function saveAboutUs() {
+	var content = myEditor.getData();
+	$("#overlay").show();
+	$.ajax({
+		type: "PUT"
+		,url: "/cms/api/page-info/edit-aboutus"
+		,headers: {
+			"Content-Type": "application/json"
+			,"X-HTTP-Method-Override": "PUT"
+		}
+		,data: JSON.stringify({
+			about_us:content
+		})
+		,dataType: "json"
+		,success: function(data) {
+			$("#overlay").hide();
+			if(data.status == 200) {
+				alertSuccess(data.message);
+			}
+		}
+		,error: function(xhr) {
+			$("#overlay").hide();
+	        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	alertWarning(xhr.responseJSON.message);
+	        }
+		}
+	});
+}
+</script>

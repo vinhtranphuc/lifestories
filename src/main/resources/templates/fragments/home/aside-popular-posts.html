@@ -1,0 +1,25 @@
+<aside id="penci_popular_news_widget-2" class="widget penci_popular_news_widget">
+	<h4 class="widget-title penci-border-arrow"><span class="inner-arrow">Popular Posts</span></h4>
+	<ul id="penci-popularwg-3250" class="side-newsfeed display-order-numbers">
+		<li th:each="post:${popularPosts}" class="penci-feed">
+			<span class="order-border-number">
+				<span class="number-post" th:text="${post.like_cnt}"></span>
+			</span>
+			<div class="side-item">
+				<div class="side-image">
+					<a class="penci-image-holder penci-lazy small-fix-size" rel="bookmark"
+						th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.small_image_path+');'}"
+						th:href="${'/home/post/'+post.post_id}"
+						title="${post.title}"></a>
+				</div>
+				<div class="side-item-text">
+					<h4 class="side-title-post">
+						<a th:href="${'/home/post/'+post.post_id}" rel="bookmark"
+							th:title="${post.title}" th:text="${post.title}"></a>
+					</h4>
+					<span class="side-item-meta"><time class="entry-date published" th:text="${post.published_at}"></time></span>
+				</div>
+			</div>
+		</li>
+	</ul>
+</aside>

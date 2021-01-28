@@ -1,0 +1,240 @@
+<!-- posts menu horizontal -->
+<script id="tmpPostPagerPrev" type="text/x-handlebars-template">
+	<div class="ls-post-pager prev">
+	    <i class="fa fa-angle-left"></i>
+	</div>
+</script>
+<script id="tmpPostPagerNext" type="text/x-handlebars-template">
+	<div class="ls-post-pager next">
+    	<i class="fa fa-angle-right"></i>
+	</div>
+</script>
+
+<script id="tmpPostSpinner" type="text/x-handlebars-template">
+	<div class="ls-spin-container">
+		<div class="ls-spinner">
+		</div>
+	</div>
+</script>
+<script id="tmpPostPageInfo" type="text/x-handlebars-template">
+	<span class="page-info">{{pageInfo}}</span>
+</script>
+<!-- End posts menu horizontal -->
+
+<!-- Post thumnail -->
+<script id="tmpPostLarge" type="text/x-handlebars-template">
+	<li class="list-post magazine-layout magazine-1">
+		<article class="item hentry">
+			<div class="thumbnail">
+				<div class="penci-owl-carousel penci-owl-carousel-slider penci-nav-visible"
+					data-auto="true">
+					{{#thumbnails}}
+						<figure class="penci-image-holder penci-lazy"
+							title="{{title}}"
+							style="display: inline-block; background-image: url({{standard_image_path}});"
+							>
+						</figure>
+					{{/thumbnails}}
+				</div>
+			</div>
+			<div class="content-list-right">
+				<div class="header-list-style">
+					<span class="cat"><a class="penci-cat-name"
+							href="{{postUrl}}"
+							rel="category tag">{{category_name}}</a></span>
+					<h2 class="entry-title grid-title"><a
+							href="{{postUrl}}">{{title}}</a></h2>
+					<div class="penci-hide-tagupdated">
+						<span class="author-italic author vcard">by <a class="url fn n">{{created_username}}</a></span>
+						<time class="entry-date published">{{published_at}}</time> </div>
+					<div class="grid-post-box-meta">
+						<span><time class="entry-date published">{{published_at}}</time></span>
+					</div>
+				</div>
+				<div class="item-content entry-content">
+					<p>{{summary}}</p>
+				</div>
+				<div class="penci-readmore-btn">
+					<a class="penci-btn-readmore" href="{{postUrl}}">Read more<i class="fa fa-angle-double-right"></i></a>
+				</div>
+			</div>
+		</article>
+	</li>
+</script>
+<script id="tmpPostSmall" type="text/x-handlebars-template">
+	<div class="penci-mega-post">
+		<div class="penci-mega-thumbnail">
+			<span class="mega-cat-name">
+				<a href="{{postUrl}}">{{category_name}}</a>
+			</span>
+		  	<a class="penci-image-holder penci-lazy" data-src="{{image_path}}" style="{{style}}" href="{{postUrl}}" title="{{title}}"></a>
+		</div>
+		<div class="penci-mega-meta">
+			<h3 class="post-mega-title">
+				<a href="{{postUrl}}" title="{{title}}">{{title}}</a>
+			</h3>
+			<p class="penci-mega-date"><time class="entry-date published">{{published_at}}</time></p>
+		</div>
+	</div>
+</script>
+<script id="tmpPost" type="text/x-handlebars-template">
+<li class="grid-style">
+	<article class="item hentry">
+		<div class="thumbnail">
+			<a class="penci-image-holder penci-lazy"
+				style="display: inline-block; background-image: url({{imagePath}});"
+				href="{{postUrl}}"
+				title="{{title}}"></a>
+		</div>
+		<div class="grid-header-box">
+			<span class="cat"> <a class="penci-cat-name"
+				href="{{categoryUrl}}" rel="category tag">{{category_name}}</a>
+			</span>
+			<h2 class="entry-title grid-title">
+				<a href="{{postUrl}}"
+					title="{{title}}">{{title}}</a>
+			</h2>
+			<div class="penci-hide-tagupdated">
+				<span class="author-italic author vcard">by <a
+					class="url fn n"
+					href="{{userUrl}}"></a>
+				</span>
+				<time class="entry-date published">{{published_at}}</time>
+			</div>
+			<div class="grid-post-box-meta">
+				<span><time class="entry-date published">{{published_at}}</time></span>
+			</div>
+		</div>
+		<div class="item-content entry-content">
+			<p>{{summary}}</p>
+		</div>
+		<div class="penci-readmore-btn">
+			<a class="penci-btn-readmore"
+				href="{{postUrl}}">Read more<i
+				class="fa fa-angle-double-right"></i></a>
+		</div>
+		<div class="penci-post-box-meta penci-post-box-grid">
+			<div class="penci-post-share-box">
+				<a target="_blank" rel="nofollow"
+					href="https://www.facebook.com/sharer/sharer.php?u={{postFullUrl}}">
+					<i class="fa fa-facebook"></i><span class="dt-share">Facebook</span>
+				</a>
+			</div>
+		</div>
+	</article>
+</li>
+</script>
+<!-- End post thumnail -->
+<!-- post comments -->
+<script id="tmpTitlePostComment" type="text/x-handlebars-template">
+	<div class="post-title-box">
+		<h4 class="post-box-title">{{commentsCnt}} comments</h4>
+	</div>
+</script>
+<script id="tmpPostComment" type="text/x-handlebars-template">
+<div class="comment byuser comment-author-mike bypostauthor odd alt depth-2">
+	<div class="thecomment" commentId="{{comment_id}}">
+		<div class="author-img">
+			<img alt='{{name}}'
+				src='/store/common/avatar-default.png'
+				class='avatar avatar-100 photo' height='100' width='100' />
+		</div>
+		<div class="comment-text">
+			<span class="author" itemprop="creator"><span
+				itemprop="name"><a rel='external nofollow' class='url'>{{name}}</a></span></span> <span
+				class="date"
+				title="{{created_at}}"><i class="fa fa-clock-o"> {{created_at}}</i></span>
+			<div class="comment-content" itemprop="commentText">
+				<p style="white-space: pre-wrap">{{comment}}</p>
+			</div>
+			<span class="reply"> <a rel='nofollow'
+				class='comment-reply-link'
+				aria-label='Reply to '{{name}}>Reply</a>
+			</span>
+		</div>
+	</div>
+</div>
+</script>
+<script id="tmpInitCommentReply" type="text/x-handlebars-template">
+<div id="respond" class="comment-respond" commentParentId="0">
+	<h3 id="reply-title" class="comment-reply-title">
+		<span>Leave a Comment</span>
+		<small><a rel="nofollow" id="cancel-comment-reply" style="display:none">Cancel Reply</a></small>
+	</h3>
+	<form id="commentform" class="comment-form">
+		<p class="comment-form-comment">
+			<textarea name="comment" cols="45" rows="8" placeholder="Your Comment" aria-required="true" id="comment-content"></textarea>
+		</p>
+		<p class="comment-form-author" style="width: 49%;">
+			<input name="author" type="text" value="" placeholder="Name*" aria-required='true'  id="comment-name"></input>
+		</p>
+		<p class="comment-form-email" style="width: 49%;">
+			<input name="email" type="text" value="" placeholder="Email*" aria-required='true' id="comment-email"></input>
+		</p>
+		<p class="comment-form-cookies-consent">
+			<input id="save-comment-info" name="wp-comment-cookies-consent" type="checkbox" value="yes"></input>
+			<span class="comment-form-cookies-text" for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</span>
+		</p>
+		<p class="form-submit">
+			<input name="submit" id="submit" class="submit" value="Submit"></input>
+		</p>
+	</form>
+</div>
+</script>
+<!-- End post comments -->
+<!-- contact form -->
+<script id="tmpContactForm" type="text/x-handlebars-template">
+	<div role="form" class="wpcf7" dir="ltr">
+		<div class="screen-reader-response"></div>
+		<form onsubmit="return false;" method="post" class="wpcf7-form" novalidate="novalidate">
+			<p class="name">
+				<span class="wpcf7-form-control-wrap your-name">
+					<input type="text" id="contact-name" name="your-name" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" placeholder="Name*" />
+				</span>
+			</p>
+			<p class="email">
+				<span class="wpcf7-form-control-wrap your-email">
+					<input type="email" id="contact-email" name="your-email" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" aria-invalid="false" placeholder="Email*" />
+				</span>
+			</p>
+			<p class="subject">
+				<span class="wpcf7-form-control-wrap your-subject">
+					<input type="text" id="contact-subject" name="your-subject" value="" size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Subject" />
+				</span>
+			</p>
+			<p class="message">
+				<span class="wpcf7-form-control-wrap your-message">
+					<textarea id="contact-message" name="your-message" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required" aria-required="true" aria-invalid="false" placeholder="Your Message"></textarea>
+				</span>
+			</p>
+			<p class="submit"><input id="contact-submit" type="submit" value="Submit" class="wpcf7-form-control wpcf7-submit" /></p>
+		</form>
+	</div>
+</script>
+<!-- End contact form -->
+<!-- Gallery -->
+<script id="tmpGalleryImage" type="text/x-handlebars-template">
+<article class="portfolio-item penci-3d penci-prints" data-terms="3d prints">
+	<div class="inner-item-portfolio">
+		<div class="info-portfolio">
+			<div class="penci-portfolio-thumbnail">
+				<a href="{{postUrl}}">
+					<span class="penci-image-placeholder" style="padding-bottom:66.66666667%">
+					<img width="585" height="390" src="{{image_path}}"
+					class="attachment-penci-masonry-thumb size-penci-masonry-thumb wp-post-image penci-pfl-lazy"
+					data-src="{{image_path}}" 
+					alt=""
+					sizes="(max-width: 585px) 100vw, 585px"></span>
+				</a>
+			</div>
+			<div class="portfolio-desc">
+				<a href="{{postUrl}}">
+					<h3 class="portfolio-title">{{title}}</h3>
+					<span class="portfolio-cat">{{category_name}}</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</article>
+</script>
+<!-- End gallery  -->

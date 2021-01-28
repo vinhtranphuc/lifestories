@@ -1,0 +1,27 @@
+
+<aside id="penci_about_widget-2" class="widget penci_about_widget">
+	<h4 class="widget-title penci-border-arrow"><span class="inner-arrow">About Me</span></h4>
+	<div class="about-widget pc_alignleft">
+		<th:block th:if="${isPost == true}">
+			<img class="penci-widget-about-image nopin holder-square penci-lazy" nopin="nopin"
+			src="/home/images/penci2-holder.png"
+			th:data-src="${post_user_avatar}"
+			alt="About Me" />
+			<p th:text="${post_user_summary}" style="white-space: pre-wrap;"></p>
+		</th:block>
+		<th:block th:unless="${isPost == true}">
+			<img class="penci-widget-about-image nopin holder-square penci-lazy" nopin="nopin"
+			src="/home/images/penci2-holder.png"
+			th:data-src="${supperAdminInfo.avatar_img}"
+			alt="About Me" />
+			<p th:text="${supperAdminInfo.summary}" style="white-space: pre-wrap;"></p>
+		</th:block>
+
+		<!-- <img class="penci-widget-about-image nopin holder-square penci-lazy" nopin="nopin"
+			src="/home/images/penci2-holder.png"
+			data-src="/home/images/about-widget.jpg"
+			alt="About Me" /> -->
+		<!-- <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+			laudantium, totam rem aperiam.</p> -->
+	</div>
+</aside>

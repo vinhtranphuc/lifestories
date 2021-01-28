@@ -1,0 +1,22 @@
+<div class="header-social sidebar-nav-social">
+	<div class="inner-header-social">
+		<a th:if="${socials.facebook_actived == '1'}" th:href="${socials.facebook_url}" rel="nofollow" target="_blank">
+			<i class="fa fa-facebook"></i>
+		 </a>
+		<a th:if="${socials.instagram_actived == '1'}" th:href="${socials.instagram_url}" rel="nofollow" target="_blank">
+			<i class="fa fa-instagram"></i>
+		</a>
+		<a th:if="${socials.flickr_actived == '1'}" th:href="${socials.flickr_url}" rel="nofollow" target="_blank">
+			<i class="fa fa-flickr"></i>
+		</a>
+		<a th:if="${socials.youtube_actived == '1'}" th:href="${socials.youtube_url}" rel="nofollow" target="_blank">
+			<i class="fa fa-youtube-play"></i>
+		</a>
+		<a th:if="${socials.twitter_actived == '1'}" th:href="${socials.twitter_url}" rel="nofollow" target="_blank">
+			<i class="fa fa-twitter"></i>
+		</a>
+		<a th:if="${socials.pinterest_actived == '1'}" th:href="${socials.pinterest_url}" rel="nofollow" target="_blank">
+			<i class="fa fa-pinterest"></i>
+		</a>
+	</div>
+</div>

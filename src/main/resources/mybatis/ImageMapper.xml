@@ -1,0 +1,52 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.ImageMapper">
+	
+	<select id="selectDecoratorImages" resultType="Map">
+		SELECT
+			small_image_path,
+			post_id
+		FROM tb_post_images
+		ORDER BY RAND()
+		LIMIT 9
+	</select>
+	
+	<sql id="whereImages">
+		<where>
+			<if test="categoryId != null and categoryId != ''.toString()">
+				c.category_id = #{categoryId}
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectImages" resultType="Map">
+		SELECT
+			c.category_id,
+			c.category_name,
+			p.post_id,
+			p.title,
+			pi.image_path
+		FROM
+			tb_post_images pi JOIN tb_posts p
+			ON pi.post_id = p.post_id
+			JOIN tb_categories c
+			ON p.category_id = c.category_id
+		<include refid="whereImages"></include>
+		ORDER BY p.published_at DESC
+		<if test="startList !=null and startList != '' and pageSize != null and pageSize != ''">
+			LIMIT ${startList},${pageSize}
+		</if>
+	</select>
+	
+	<select id="selectImagesCnt" resultType="int">
+		SELECT
+			COUNT(pi.image_id) AS images_cnt
+		FROM
+			tb_post_images pi JOIN tb_posts p
+			ON pi.post_id = p.post_id
+			JOIN tb_categories c
+			ON p.category_id = c.category_id
+		<include refid="whereImages"></include>
+	</select>
+
+</mapper>

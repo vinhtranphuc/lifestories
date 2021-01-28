@@ -1,0 +1,148 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	th:with="hasHeaderBottomLine = false"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layouts/home-layout}">
+<head th:include="~{fragments/home/head :: title('Tag posts')}">
+<style layout:fragment="styles">
+</style>
+<th:block layout:fragment="others">
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="container penci_sidebar right-sidebar">
+			<div id="main" class="penci-layout-grid penci-main-sticky-sidebar">
+				<div class="theiaStickySidebar">
+					<div class="archive-box">
+						<div class="title-bar">
+							<span>Search results for</span>
+							<h1>"[[${key}]]"</h1>
+						</div>
+					</div>
+					<th:block th:if="${list!=null and !list.empty}">
+					<ul class="penci-wrapper-data penci-grid" id="post-list">
+						<li th:each="post:${list}" class="grid-style">
+							<article class="item hentry">
+								<div class="thumbnail">
+									<a class="penci-image-holder penci-lazy"
+										th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+										th:href="${'/home/post/'+post.post_id}"
+										th:title="${post.title}"> </a>
+								</div>
+								<div class="grid-header-box">
+									<span class="cat"> <a class="penci-cat-name"
+										th:href="${'/home/posts/category?categoryId='+post.category_id}" rel="category tag"
+										th:text="${post.category_name}"></a>
+									</span>
+									<h2 class="entry-title grid-title">
+										<a th:href="${'/home/post/'+post.post_id}"
+											th:title="${post.title}" th:text="${post.title}"></a>
+									</h2>
+									<div class="penci-hide-tagupdated">
+										<span class="author-italic author vcard">by <a
+											class="url fn n"
+											th:href="${'/home/posts/user?userId='+post.user_id}"></a>
+										</span>
+										<time class="entry-date published"
+											th:text="${post.published_at}"></time>
+									</div>
+									<div class="grid-post-box-meta">
+										<span><time class="entry-date published"
+												th:text="${post.published_at}"></time></span>
+									</div>
+								</div>
+								<div class="item-content entry-content">
+									<p th:text="${post.summary}"></p>
+								</div>
+								<div class="penci-readmore-btn">
+									<a class="penci-btn-readmore"
+										th:href="${'/home/post/'+post.post_id}">Read more<i
+										class="fa fa-angle-double-right"></i></a>
+								</div>
+								<div class="penci-post-box-meta penci-post-box-grid">
+									<div class="penci-post-share-box">
+										<a target="_blank" rel="nofollow"
+											th:href="${'https://www.facebook.com/sharer/sharer.php?u='+postFullUrl+post.post_id}">
+											<i class="fa fa-facebook"></i><span class="dt-share">Facebook</span>
+										</a>
+									</div>
+								</div>
+							</article>
+						</li>
+					</ul>
+					<div id="loadMoreBtn" class="penci-pagination penci-ajax-more penci-ajax-home penci-ajax-more-click" th:key="${key}" th:page="${page}" th:pageSize="${pageSize}">
+						<a class="penci-ajax-more-button"> <span
+							class="ajax-more-text">Load More Posts</span> <span
+							class="ajaxdot"></span><i class="fa fa-refresh"></i>
+						</a>
+					</div>
+					</th:block>
+					<th:block th:unless="${list!=null and !list.empty}">
+						<div class="nothing">
+							<span>Sorry, but nothing matched your search terms. Please try again with some different keywords.</span>
+						</div>
+					</th:block>
+				</div>
+			</div>
+			<div th:replace="~{fragments/home/right-sidebar}"></div>
+			<!-- END CONTAINER -->
+		</div>
+	</th:block>
+</body>
+</html>
+<script>
+$(document).ready(function() {
+	$('#loadMoreBtn').click(function(e) {
+		var pageSize = parseInt($(this).attr('pageSize'));
+		var page = parseInt($(this).attr('page'));
+		var key = !$(this).attr('key')?"":$(this).attr('key');
+		$('#loadMoreBtn a').addClass('loading-posts');
+		page++;
+		$.when(loadMorePost(key,pageSize,page)).then(function() {
+			$('#loadMoreBtn a').removeClass('loading-posts');
+			refreshPostList($('.penci-wrapper-data .penci-owl-carousel-slider'));
+		})
+	});
+});
+function loadMorePost(key,pageSize,page) {
+	return $.ajax({
+		type : "GET",
+		url : "/home/api/posts?key="+key+"&pageSize="+pageSize+"&page="+page,
+		dataType : "json",
+		success : function(data) {
+			if (data.status == 200) {
+				var result = data.data;
+				var list = result.list;
+				if(!list || list.length <1) {
+					$("#loadMoreBtn .ajax-more-text" ).text("Sorry, no more post !");
+					$("#loadMoreBtn i").remove();
+					$('#loadMoreBtn').removeClass('loading-posts');
+					setTimeout(function(){
+						$('#loadMoreBtn').remove();
+					}, 1200);
+					return;
+				}
+				list.forEach(function(e) {
+					var tmpPost = $('#tmpPost').html();
+					var template = Handlebars.compile(tmpPost+"");
+					var post = {};
+					post = e;
+					post['imagePath'] = e.first_thumbnail.standard_image_path;
+					post['postUrl'] = '/home/post/'+e.post_id;
+					post['userUrl'] = '/home/posts/user?userId='+e.user_id;
+					post['categoryUrl'] = '/home/posts/category?categoryId='+e.category_id;
+					post['postFullUrl'] = "[[${postFullUrl}]]"+e.post_id;
+					tmpPost = template(post);
+					$('#post-list').append(tmpPost);
+				});
+				$('#loadMoreBtn').attr('page',result.page);
+			}
+		},
+		error : function(xhr) {
+			if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	alertWarning(xhr.responseJSON.message);
+	        }
+		}
+	});
+}
+</script>

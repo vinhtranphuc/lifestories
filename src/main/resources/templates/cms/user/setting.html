@@ -1,0 +1,964 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/cms-layout}">
+<head th:include="~{fragments/cms/head :: title('User Settimg')}">
+    <style layout:fragment="styles">
+	.btn.disabled, .btn:disabled {
+		border-color: #ccc !important;
+		background-color: #ccc !important;
+	}
+	
+	input[type=radio] {
+		cursor: pointer
+	}
+	
+	#avatar-img {
+		width: inherit;
+		height: inherit;
+		object-fit: contain;
+	}
+	#delete-img-btn {
+		background: white;
+		position: absolute;
+		top: 6px;
+		right: 10px;
+		z-index: 99;
+		width: 20px;
+		height: 20px;
+	}
+    </style>
+    <th:block layout:fragment="others">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/cms/main"><i
+                    class="fa fa-home"></i> Main</a></li>
+            <li class="breadcrumb-item"><a href="/cms/user">User Setting</a></li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        <i class="fa fa-bars"></i> User Setting
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active"
+                                                id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                                aria-controls="profile" aria-selected="false">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                                id="change-password-tab" data-toggle="tab"
+                                                href="#change-password" role="tab"
+                                                aria-controls="change-password" aria-selected="false">Change Password</a></li>
+                        <th:block th:if="${isSupperAdmin == true}">
+                            <li class="nav-item"><a class="nav-link"
+                                                    id="create-user-tab" data-toggle="tab" href="#create-user"
+                                                    role="tab" aria-controls="create-user" aria-selected="false">Create User</a></li>
+                            <li class="nav-item"><a class="nav-link" id="user-list-tab"
+                                                    data-toggle="tab" href="#user-list" role="tab"
+                                                    aria-controls="user-list" aria-selected="false">User List</a></li>
+                        </th:block>
+                    </ul>
+                    <div class="tab-content" id="user-content">
+                        <input type="hidden" id="current-user-id" th:value="${user_id}">
+                        <div class="tab-pane fade show active" id="profile"
+                             role="tabpanel" aria-labelledby="profile-tab">
+                            <div data-parsley-validate
+                                 class="form-horizontal form-label-left">
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="user-name">Avatar
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="hidden" name="avatar-saved"
+                                               th:value="${avatar_img}"> <span id="select-image"
+                                                                               class="form-control"
+                                                                               style="background: #dddddd; cursor: pointer;">Browse
+												image</span> <input type="file" id="file" style="display: none;"/>
+                                        <span class="fa fa-folder form-control-feedback right"
+                                              aria-hidden="true"></span>
+                                        <!-- <input type="text" required="required" class="user-name form-control " name="avatar" th:value="${username}"> -->
+                                    </div>
+                                </div>
+                                <div class="item form-group" id="avatar-img-div"
+                                     th:style="${avatar_img==null||avatar_img==''?'display:none':'display: flex'}">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"></span> </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <img id="avatar-img" th:src="${avatar_img}">
+                                        <button id="delete-img-btn" type="button" class="close"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <img/>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="full-name">Full name <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="hidden" name="full-name-saved"
+                                               th:value="${full_name}"> <input type="text"
+                                                                               required="required"
+                                                                               class="full-name form-control "
+                                                                               name="full-name" th:value="${full_name}">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="user-name">Username <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="hidden" name="user-name-saved"
+                                               th:value="${username}"> <input type="text"
+                                                                              required="required"
+                                                                              class="user-name form-control "
+                                                                              name="user-name" th:value="${username}">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="summary">Summary
+                                    </label>
+                                    <div class="col-md-3 col-sm-3">
+                                        <input type="hidden" name="summary-saved"
+                                               th:value="${summary}"></input>
+                                        <textarea rows="5" th:text="${summary}" name="summary" required="required" class="summary form-control" data-parsley-trigger="keyup"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="ln_solid"></div>
+                                <div class="item form-group">
+                                    <div class="col-md-6 col-sm-6 offset-md-3">
+                                        <div id="enableEditProfile" style="display:none">
+                                        	<button class="btn btn-primary reset" type="reset" name="reset">Reset</button>
+                                        	<button class="btn btn-success save" name="save" disabled>Save</button>
+                                        </div>
+                                        <div id="disabledEditProfile">
+                                        	<button class="btn btn-primary return-main"name="return">Exit</button>
+                                        	<button class="btn btn-success" name="edit">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="change-password" role="tabpanel"
+                             aria-labelledby="change-password-tab">
+                            <div data-parsley-validate
+                                 class="form-horizontal form-label-left">
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="current-password">Current Password <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="password" required="required"
+                                               class="current-password form-control "
+                                               name="current-password">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="new-password">New Password <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="password" required="required"
+                                               class="new-password form-control" name="new-password">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="confirm-password">Confirm Password <span
+                                            class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="password" required="required"
+                                               class="confirm-password form-control "
+                                               name="confirm-password">
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="item form-group">
+                                    <div class="col-md-6 col-sm-6 offset-md-3">
+                                        <button class="btn btn-primary return-main"
+                                                name="return-main">Exit
+                                        </button>
+                                        <button class="btn btn-success save" name="save" disabled>Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="create-user" role="tabpanel"
+                             aria-labelledby="create-user-tab">
+                            <div data-parsley-validate
+                                 class="form-horizontal form-label-left">
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="full-name">Full name<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" required="required"
+                                               class="full-name form-control " name="full-name">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="user-name">Username<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="text" required="required"
+                                               class="user-name form-control " name="user-name">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="new-password">New password<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="password" required="required"
+                                               class="new-password form-control " name="new-password">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                           for="confirm-password">Confirm password<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <input type="password" required="required"
+                                               class="confirm-password form-control "
+                                               name="confirm-password">
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="item form-group">
+                                    <div class="col-md-6 col-sm-6 offset-md-3">
+                                        <button class="btn btn-primary reset" type="reset" name="reset">Reset</button>
+                                        <button class="btn btn-success save" name="save" disabled>Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="user-list" role="tabpanel"
+                             aria-labelledby="user-list-tab">
+                            <div id="user-modal" class="modal fade bd-example-modal-lg"
+                                 tabindex="-1" role="dialog" aria-hidden="true">
+                                <input type="hidden" class="form-control" id="user-id"/>
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title title-form">Edit account</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="basic-form">
+                                                <div class="form-group row align-items-center">
+                                                    <label class="col-sm-3 col-form-label text-label">Full name</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="full-name"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-center">
+                                                    <label class="col-sm-3 col-form-label text-label">Username</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                        	<input type="hidden" class="form-control" id="user-name-saved"/>
+                                                            <input type="text" class="form-control" id="user-name"/>
+                                                            <div id="user-tab_valid-username"
+                                                                 class="valid-feedback text-danger"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-center">
+                                                    <label class="col-sm-3 col-form-label text-label">Status</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio"
+                                                                       name="enabled-cd" value="1"> <label
+                                                                    class="form-check-label"
+                                                                    for="inlineRadio1">Enable</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio"
+                                                                       name="enabled-cd" value="0"> <label
+                                                                    class="form-check-label"
+                                                                    for="inlineRadio2">Disable</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-center">
+                                                    <label class="col-sm-3 col-form-label text-label">New password</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                            <input type="password" required="required"
+                                                                   class="confirm-password form-control "
+                                                                   name="new-password">
+                                                            <div id="user-tab_valid-new-password"
+                                                                 class="valid-feedback text-danger"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row align-items-center">
+                                                    <label class="col-sm-3 col-form-label text-label">Confirm password</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                            <input type="password" required="required"
+                                                                   class="confirm-password form-control "
+                                                                   name="confirm-password">
+                                                            <div id="user-tab_valid-confirm-password"
+                                                                 class="valid-feedback text-danger"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="save-user"
+                                                    style="width: 20%;" name="save">Save
+                                            </button>
+                                            <!--  <button type="button" class="btn btn-outline-dark px-5" data-dismiss="modal" id="seat-edit-cancel">취소</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-danger blur-color" id="delete-user">Delete</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+                                        <table id="user-table"
+                                               class="table table-striped jambo_table bulk_action table-bordered">
+                                            <thead class="headings">
+                                            <tr>
+                                                <th class="no-sorting"><input type="checkbox">
+                                                </th>
+                                                <th class="no-sorting">Fullname</th>
+                                                <th class="no-sorting">Username</th>
+                                                <th class="no-sorting">Registration Date</th>
+                                                <th class="no-sorting">Is Activity</th>
+                                                <th class="no-sorting">Modified date</th>
+                                                <th class="no-sorting"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+$(document).ready(function(){
+	$(".return-main").click(function() {
+		window.location.href = "/cms/overview";
+	});
+	
+	$('#profile input').attr('disabled',true);
+	$('#profile textarea').attr('disabled',true);
+	$('#profile textarea[name=summary]').on('keypress', function(e) {
+	  const maxRows = Number($(this).attr('rows'));
+	  const currRows = $(this).val().split("\n").length;
+	  if (maxRows === currRows && e.key === 'Enter') {
+	    e.preventDefault();
+	  }
+	});
+	
+	$('#delete-img-btn').attr('disabled',true);
+	$('#profile button[name=edit]').click(function(e) {
+		$("#enableEditProfile").show();
+		$('#profile input').removeAttr('disabled');
+		$('#profile textarea').removeAttr('disabled');
+		$('#delete-img-btn').removeAttr('disabled');
+		$("#disabledEditProfile").toggle();
+	});
+	
+	$('#profile button[name=reset]').click(function(e) {
+		$('#profile input[name=full-name]').val($('#profile input[name=full-name-saved]').val());
+		$('#profile input[name=user-name]').val($('#profile input[name=user-name-saved]').val());
+		$('#profile textarea[name=summary]').val($('#profile input[name=summary-saved]').val());
+		var avatarSaved = $('#profile input[name=avatar-saved]').val();
+		$('#avatar-img').attr("src",avatarSaved).load(function(){
+		    this.width;
+		    $("#avatar-img-div").show();
+		});
+	});
+	
+	$('#profile input[name=full-name]').keyup(function(e) {
+		var newFullName = e.target.value;
+		var newUserName = $('#profile input[name=user-name]').val();
+		var newAvatar = $('#avatar-img').attr('src');
+		var newSummary = $('#profile textarea[name=summary]').val();
+		handleEnableSaveProfile(newFullName,newUserName,newAvatar,newSummary);
+	});
+	$('#profile input[name=user-name]').keyup(function(e) {
+		var newFullName = $('#profile input[name=full-name]').val();
+		var newUserName = e.target.value;
+		var newAvatar = $('#avatar-img').attr('src');
+		var newSummary = $('#profile textarea[name=summary]').val();
+		handleEnableSaveProfile(newFullName,newUserName,newAvatar,newSummary);
+	});
+	
+	$('#profile textarea[name=summary]').keyup(function(e) {
+		var newFullName = $('#profile input[name=full-name]').val();
+		var newUserName = $('#profile input[name=user-name]').val();
+		var newAvatar = $('#avatar-img').attr('src');
+		var newSummary = e.target.value;
+		handleEnableSaveProfile(newFullName,newUserName,newAvatar,newSummary);
+	});
+	
+	$('#avatar-img').on('load',function(e) {
+		var newFullName = $('#profile input[name=full-name]').val();
+		var newUserName = $('#profile input[name=user-name]').val();
+		var newAvatar = $(this).attr('src');
+		var newSummary = $('#profile textarea[name=summary]').val();
+		handleEnableSaveProfile(newFullName,newUserName,newAvatar,newSummary);
+	});
+	/* $('#avatar-img').change(function(e) {
+		var newFullName = $('#profile input[name=full-name]').val();
+		var newUserName = $('#profile input[name=user-name]').val();
+		var newAvatar = e.target.value;
+		handleEnableSaveProfile(newFullName,newUserName,newAvatar)
+	}); */
+	
+	$('#profile button[name=save]').click(function(e) {
+		
+		var fullName = $('#profile input[name=full-name]').val();
+		var userName = $('#profile input[name=user-name]').val();
+		var summary = $('#profile textarea[name=summary]').val();
+		var avatarImg = $("#avatar-img").attr('src');
+		var avatarImgName = $("#select-image").html();
+		$("#overlay").show();
+		$.ajax({
+			type: "POST"
+			,url: "/cms/api/user/change-profile"
+			,headers: {
+				"Content-Type": "application/json"
+				,"X-HTTP-Method-Override": "POST"
+			}
+			,data: JSON.stringify({
+				full_name:fullName
+				,username:userName
+				,summary:summary
+				,avatarImg:avatarImg
+				,avatarImgName:avatarImgName
+			})
+			,dataType: "json"
+			,success: function(data) {
+				$("#overlay").hide();
+				if(data.status == 200) {
+					$('#profile input[name=full-name-saved]').val($('#profile input[name=full-name]').val());
+					$('#profile input[name=user-name-saved]').val($('#profile input[name=user-name]').val());
+					$('#profile input[name=summary-saved]').val($('#profile textarea[name=summary]').val());
+					$('#profile button[name=save]').attr('disabled','disabled');
+					
+					$("#enableEditProfile").toggle('hide');
+					$('#profile input').attr('disabled',true);
+					$('#profile textarea').attr('disabled',true);
+					$('#delete-img-btn').attr('disabled',true);
+					$("#disabledEditProfile").toggle('show');
+					
+					Swal.fire({
+						position: 'center',
+			            title: 'Saved!',
+			            type: 'success',
+			            showConfirmButton: false,
+			            timer:2000,
+			            width:550
+			        })
+				}
+			}
+			,error: function(xhr) {
+				$("#overlay").hide();
+		        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+		        	Swal.fire({
+						position: 'center',
+			            title: xhr.responseJSON.message,
+			            type: 'warning',
+			            showConfirmButton: false,
+			            timer:2000,
+			            width:550
+			        })
+		        }
+			}
+		});
+	});
+	
+	$('#change-password input[name=current-password]').keyup(function(e) {
+		var currentPw = e.target.value;
+		var newPw = $('#change-password input[name=new-password]').val();
+		var confirmPw = $('#change-password input[name=confirm-password]').val();
+		handleEnableSavePassword(currentPw,newPw,confirmPw);
+	});
+	
+	$('#change-password input[name=new-password]').keyup(function(e) {
+		var currentPw = $('#change-password input[name=current-password]').val();
+		var newPw = e.target.value;
+		var confirmPw = $('#change-password input[name=confirm-password]').val();
+		handleEnableSavePassword(currentPw,newPw,confirmPw)
+	});
+	
+	$('#change-password input[name=confirm-password]').keyup(function(e) {
+		var currentPw = $('#change-password input[name=current-password]').val();
+		var newPw = $('#change-password input[name=new-password]').val();
+		var confirmPw = e.target.value;
+		handleEnableSavePassword(currentPw,newPw,confirmPw)
+	});
+	
+	$('#change-password button[name=save]').click(function(e) {
+		var password = $('#change-password input[name=current-password]').val();
+		var newPassword = $('#change-password input[name=new-password]').val();
+		var confirmPassword = $('#change-password input[name=confirm-password]').val();
+		
+		$("#overlay").show();
+		$.ajax({
+			type: "POST"
+			,url: "/cms/api/user/change-password"
+			,headers: {
+				"Content-Type": "application/json"
+				,"X-HTTP-Method-Override": "POST"
+			}
+			,data: JSON.stringify({
+				password:password
+				,new_password:newPassword
+				,confirm_password:confirmPassword
+			})
+			,dataType: "json"
+			,success: function(data) {
+				$("#overlay").hide();
+				if(data.status == 200) {
+					$('#change-password input[name=current-password]').val('');
+					$('#change-password input[name=new-password]').val('');
+					$('#change-password input[name=confirm-password]').val('');
+					Swal.fire({
+						position: 'center',
+			            title: 'Change password successfully!',
+			            type: 'success',
+			            showConfirmButton: false,
+			            timer:2000,
+			            width:550
+			        })
+				}
+			}
+			,error: function(xhr) {
+				$("#overlay").hide();
+		        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+		        	Swal.fire({
+						position: 'center',
+			            title: xhr.responseJSON.message,
+			            type: 'warning',
+			            showConfirmButton: false,
+			            timer:2000,
+			            width:550
+			        })
+		        }
+			}
+		});
+	});
+	
+	$('#create-user button[name=reset]').click(function(e) {
+		$('#create-user input[name=full-name]').val('');
+		$('#create-user input[name=user-name]').val('');
+		$('#create-user input[name=new-password]').val('');
+		$('#create-user input[name=confirm-password]').val('');
+	});
+	
+	$('#create-user input').mouseleave(function() {
+		if($('#create-user input[name=full-name]').val() == '' 
+				|| $('#create-user input[name=user-name]').val() == '' 
+				|| $('#create-user input[name=new-password]').val() == '' 
+				|| $('#create-user input[name=confirm-password]').val() == '') {
+			$('#create-user button[name=save]').attr('disabled','disabled');
+		} else {
+			$('#create-user button[name=save]').removeAttr('disabled');
+		}
+	});
+	
+	$('#create-user button[name=save]').click(function(e) {
+		var fullName = $('#create-user input[name=full-name]').val();
+		var userName = $('#create-user input[name=user-name]').val();
+		var newPassword = $('#create-user input[name=new-password]').val();
+		var confirmPassword = $('#create-user input[name=confirm-password]').val();
+		
+		$("#overlay").show();
+		$.ajax({
+			type: "POST"
+			,url: "/cms/api/user/create-account"
+			,headers: {
+				"Content-Type": "application/json"
+				,"X-HTTP-Method-Override": "POST"
+			}
+			,data: JSON.stringify({
+				full_name:fullName
+				,username:userName
+				,new_password:newPassword
+				,confirm_password:confirmPassword
+			})
+			,dataType: "json"
+			,success: function(data) {
+				$("#overlay").hide();
+				if(data.status == 200) {
+					$('#create-user input[name=full-name]').val('');
+					$('#create-user input[name=user-name]').val('');
+					$('#create-user input[name=new-password]').val('');
+					$('#create-user input[name=confirm-password]').val('');
+					
+					Swal.fire({
+						position: 'center',
+			            title: 'This account is registered!',
+			            type: 'success',
+			            showConfirmButton: false,
+			            timer:2000,
+			            width:550
+			        })
+				}
+			}
+			,error: function(xhr) {
+				$("#overlay").hide();
+		        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+		        	Swal.fire({
+						position: 'center',
+			            title: xhr.responseJSON.message,
+			            type: 'warning',
+			            showConfirmButton: false,
+			            timer:2000,
+			            width:550
+			        })
+		        }
+			}
+		});
+	});
+	
+	$('#user-list-tab').on('shown.bs.tab', function(event){
+		loadUserTable();
+	});
+	
+	$('#user-list button[name=save]').click(function(e) {
+		saveEditUser();
+	});
+	
+	$('#delete-user').click(function() {
+	    var checkedRows = $('#user-table').DataTable().rows().settings()[0].aoData.filter(function(e) {
+			return e.anCells[0].children[0].checked == true;
+	    }).length;
+		if(checkedRows < 1) {
+			Swal.fire({
+				position: 'center',
+	            title: "No account selected!",
+	            type: 'warning',
+	            showConfirmButton: false,
+	            timer:2000,
+	            width:550
+	        })
+			return;
+		}
+		deleteUserArr();
+	});
+	
+	$('#select-image').click(function() {
+		$('#file')[0].click();
+	})
+	$('#file').change(function() {
+		var input = $(this),
+		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+		input.trigger('selectFile', [label]);
+		readURL(input);
+	});
+	
+	$('#file').on('selectFile', function(event, label) {
+		$('#select-image').html(label);
+		if(label=='') {
+			$('#avatar-img').removeAttr('src');
+			$('#avatar-img').hide();
+			$('#delete-img-btn').hide();
+		}
+	});
+	
+	$('#delete-img-btn').click(function() {
+		$('#file').val("");
+		$('#select-image').html('');
+		$('#avatar-img').attr('src','');
+		$('#avatar-img').trigger('load');
+		$('#avatar-img-div').hide();
+	})
+ });
+ 
+ function handleEnableSaveProfile(newFullName,newUserName,newAvatar, newSummary) {
+	var isChange = false;
+	if(newFullName != $('#profile input[name=full-name-saved]').val()) {
+		isChange = true;
+	}
+	if(newUserName != $('#profile input[name=user-name-saved]').val()) {
+		isChange = true;
+	}
+	if(newAvatar != $('#profile input[name=avatar-saved]').val()) {
+		isChange = true;
+	}
+	
+	if(newSummary != $('#profile input[name=summary-saved]').val()) {
+		isChange = true;
+	}
+	if(isChange) {
+		$('#profile button[name=save]').removeAttr('disabled');
+	} else {
+		$('#profile button[name=save]').attr('disabled','disabled');
+	}
+ }
+ 
+ function handleEnableSavePassword(currentPw,newPw,confirmPw) {
+	 if(currentPw == '' || newPw == '' || confirmPw == '') {
+		$('#change-password button[name=save]').attr('disabled','disabled');
+	} else {
+		$('#change-password button[name=save]').removeAttr('disabled');
+	}
+ }
+ 
+function readURL(input) {
+    if (input[0].files && input[0].files[0]) {
+        var reader = new FileReader();
+        if(input[0].files[0] && (input[0].files[0].size / 1024 / 1024) > 3) {
+			Swal.fire({
+				position: 'center',
+		        title: 'Please upload an image size of less than 3mb!',
+		        type: 'warning',
+		        showConfirmButton: false,
+		        timer:2000,
+		        width:550
+		    });
+			return;
+        }
+        reader.onload = function (e) {
+            $('#avatar-img').attr('src', e.target.result);
+           /*  $('#avatar-img').show();
+            $('#delete-img-btn').show(); */
+            $('#avatar-img-div').show();
+        }
+        reader.readAsDataURL(input[0].files[0]);
+    }
+}
+
+function loadUserTable() {
+	$("#overlay").show();
+	var tableColumns = [
+		{"data" : "news_id","className" : "text-center","render" : function(data, type, row) {
+			return '<input '+(row.role_id==1?'disabled':'')+' type="checkbox" value="'+row.user_id+'">';
+		},},
+		{"data" : "username","className" : "text-center"},
+		{"data" : "full_name","className" : "text-center"},
+		{"data" : "created_at","className" : "text-center"},
+		{"data" : "enabled_val","className" : "text-center"},
+		{"data" : "updated_at","className" : "text-center"},
+		{"data" : "user_id","className" : "text-center","render" : function(data, type, row) {
+			 return "<div class='action-menu'><ul><li><a onclick='editUser("+ row.user_id+")'>Edit</a></li><li ><a onclick='deleteUser("+row.user_id+","+row.role_id+")'>Delete</a></li></ul></div>";
+		}},
+		{"data" : "enabled_cd","visible" : false}, // hidden
+		{"data" : "user_id","visible" : false}, // hidden
+		{"data" : "role_id","visible" : false}, // hidden
+	];
+	var url = "/cms/api/user/list";
+	var table = $("#user-table");
+	loadTableAjaxGET(url,table,tableColumns);
+}
+
+function deleteUserArr() {
+	var userIdArr = getCheckedKeys($('#user-table'));
+	ajaxDeleteUser(userIdArr);
+}
+
+function deleteUser(userId,roleId) {
+	if(roleId == 1) {
+		Swal.fire({
+			position: 'center',
+            title: 'This account cannot delete!',
+            type: 'warning',
+            showConfirmButton: false,
+            timer:2000,
+            width:550
+        })
+        return;
+	}
+	var userIdArr = [userId];
+	ajaxDeleteUser(userIdArr);
+}
+
+function ajaxDeleteUser(userIdArr) {
+	if(userIdArr.length < 1)
+		return;
+	
+	alertConfirm('Delete this user?')
+	.then(function(result) {
+			if (result.value) {
+				  $("#overlay").show();
+				  $.ajax({
+						type: "DELETE"
+						,url: "/cms/api/user/delete-users"
+						,headers: {
+							"Content-Type": "application/json"
+							,"X-HTTP-Method-Override": "DELETE"
+						}
+						,data: JSON.stringify({
+							userIdArr:userIdArr
+						})
+						,dataType: "json"
+						,success: function(data) {
+							if(data.status == 200) {
+								$("#overlay").hide();
+								loadUserTable();
+								Swal.fire({
+									position: 'center',
+						            title: 'Deleted!',
+						            type: 'success',
+						            showConfirmButton: false,
+						            timer:2000,
+						            width:550
+						        })
+							}
+						}
+						,error: function(xhr) {
+							$("#overlay").hide();
+					        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+					        	Swal.fire({
+									position: 'center',
+						            title: xhr.responseJSON.message,
+						            type: 'warning',
+						            showConfirmButton: false,
+						            timer:2000,
+						            width:550
+						        })
+					        }
+						}
+					});
+			  	}
+		})
+}
+
+function editUser(userId) {
+	var data = getDataRows($("#user-table")).filter(function(e) {
+	    return e.user_id == userId
+	})[0];
+	copyDataToModal(data);
+	$("#user-modal").modal('show');
+}
+
+function copyDataToModal(data) {
+	
+	$(':input','#user-modal')
+	  .not(':button, :submit, :reset,:radio')
+	  .val('');
+	
+	$("#user-id").val(data.user_id);
+	$("#full-name").val(data.full_name);
+	$("#user-name").val(data.username);
+	$("#user-name-saved").val(data.username);
+	$('input[name="enabled-cd"]').each(function() {
+		$(this).prop('checked',data.enabled_cd==$(this).val()?true:false);
+	});
+	if(data.role_id == '1') {
+		$('input[name="enabled-cd"]').attr('disabled',true);
+	} else {
+		$('input[name="enabled-cd"]').removeAttr('disabled');
+	}
+}
+
+function saveEditUser() {
+	var userId = $("#user-id").val();
+	var fullName = $("#full-name").val();
+	var userName = $("#user-name").val();
+	var userNameSaved = $("#user-name-saved").val();
+	var newPassword = $("#user-list input[name='new-password']").val();
+	var confirmPassword = $("#user-list input[name='confirm-password']").val();
+	var enabledCd = $("input[name='enabled-cd']:checked").val();
+	if(!validate(userName,newPassword,confirmPassword)) {
+		return;
+	}
+	$("#overlay").show();
+	$.ajax({
+		type: "PUT"
+		,url: "/cms/api/user/edit-account"
+		,headers: {
+			"Content-Type": "application/json"
+			,"X-HTTP-Method-Override": "PUT"
+		}
+		,data: JSON.stringify({
+			user_id:userId
+			,full_name:fullName
+			,username:userName
+			,userNameSaved:userNameSaved
+			,enabled:enabledCd
+			,new_password:newPassword
+			,confirm_password:confirmPassword
+		})
+		,dataType: "json"
+		,success: function(data) {
+			if(data.status == 200) {
+				$("#user-modal").modal('hide');
+				$("#overlay").hide();
+				loadUserTable();
+				Swal.fire({
+					position: 'center',
+		            title: 'Saved!',
+		            type: 'success',
+		            showConfirmButton: false,
+		            timer:2000,
+		            width:550
+		        })
+			}
+		}
+		,error: function(xhr) {
+			$("#overlay").hide();
+	        if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	Swal.fire({
+					position: 'center',
+		            title: xhr.responseJSON.message,
+		            type: 'warning',
+		            showConfirmButton: false,
+		            timer:2000,
+		            width:550
+		        })
+	        }
+		}
+	});
+}
+
+function validate(username, newPw, confirmPw) {
+	var isValid = true;
+	if(username == "") {
+		dispError($("#user-tab_valid-username"), "Username is requried!");
+		isValid = false;
+	} else {
+		hideError($("#user-tab_valid-username"));
+	}
+	if(newPw != "" && confirmPw == "") {
+		dispError($("#user-tab_valid-confirm-password"), "New password is requried!");
+		isValid = false;
+	} else {
+		hideError($("#user-tab_valid-confirm-password"));
+	}
+	if(newPw == "" && confirmPw != "") {
+		dispError($("#user-tab_valid-new-password"), "Confirm password is requried!");
+		isValid = false;
+	} else {
+		hideError($("#user-tab_valid-new-password"));
+	}
+	return isValid;
+}
+
+</script>

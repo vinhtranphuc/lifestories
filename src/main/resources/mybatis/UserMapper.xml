@@ -1,0 +1,115 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tranphucvinh.mybatis.mapper.UserMapper">
+
+    <select id="selectUserList" resultType="Map">
+        SELECT
+	        a.user_id,
+	        a.username,
+	        a.full_name,
+	        a.enabled,
+	        a.join_date,
+	        a.created_at,
+	        a.updated_at,
+	        b.role_id
+        FROM
+        	tb_users a JOIN tb_user_roles b
+        	ON a.user_id = b.user_id
+    </select>
+    
+    <select id="selectSupperAdminInfo" resultType="Map">
+        SELECT
+	        a.user_id,
+	        a.username,
+	        a.avatar_img,
+	        a.summary
+        FROM
+        	tb_users a JOIN tb_user_roles b
+        		ON a.user_id = b.user_id
+        	JOIN tb_roles c
+        		ON b.role_id = c.role_id
+        	WHERE c.role_id = 1
+    </select>
+
+    <update id="updateProfile">
+        UPDATE tb_users
+        SET
+	        username = #{username},
+	        full_name = #{full_name},
+	        avatar_img = #{avatar_img},
+	        summary = #{summary}
+        WHERE
+        	user_id = #{user_id}
+    </update>
+
+    <update id="updateUser">
+        UPDATE tb_users
+        SET
+	        username = #{username},
+	        full_name = #{full_name},
+	        enabled = #{enabled}
+        WHERE
+        	username = #{username}
+    </update>
+
+    <update id="updatePasswordByUsername">
+        UPDATE tb_users
+        SET
+        	password = #{new_password}
+        WHERE
+        	username = #{username}
+    </update>
+
+    <insert id="insertUserRoles">
+        INSERT INTO tb_user_roles (
+	        user_id,
+	        role_id
+        ) VALUES(
+	        #{user_id},
+	        #{role_id}
+        )
+    </insert>
+
+    <insert id="insertUser">
+        INSERT INTO tb_users (
+	        username,
+	        full_name,
+	        password,
+	        provider,
+	        join_date,
+	        created_at,
+	        updated_at,
+	        enabled
+        ) VALUES (
+	        #{username},
+	        #{full_name},
+	        #{new_password},
+	        #{provider},
+	        NOW(),
+	        NOW(),
+	        NOW(),
+	        1
+        )
+        <selectKey resultType="String" order="AFTER" keyProperty="user_id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <delete id="deleteUserRoles">
+        <if test="userIdArr.size() > 0">
+            DELETE FROM tb_user_roles
+            <foreach item="element" collection="userIdArr" open="WHERE user_id IN (" separator="," close=")">
+                #{element}
+            </foreach>
+        </if>
+    </delete>
+
+    <delete id="deleteUsers">
+        <if test="userIdArr.size() > 0">
+            DELETE FROM tb_users
+            <foreach item="element" collection="userIdArr" open="WHERE user_id IN (" separator="," close=")">
+                #{element}
+            </foreach>
+        </if>
+    </delete>
+</mapper>

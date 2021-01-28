@@ -1,0 +1,65 @@
+.ls-row {
+	display: inline-flex;
+	position: relative;
+}
+.ls-row .page-info {
+	position: absolute;
+    bottom: 5px;
+    left: 11px;
+    font-weight: bold;
+}
+#navigation .penci-megamenu .penci-content-megamenu .ls-row.row-active {
+    display: inline-flex;
+}
+.ls-post-pager {
+    width: 1% !important;
+    float: left;
+    background-color: #888888;
+    border-radius: 2px;
+    opacity: 0.5;
+    cursor: pointer;
+    margin: 0 0 10px 0;
+    display: flex;
+}
+.ls-post-pager i{
+	color: #313131;
+    font-weight: bold;
+    margin: auto auto;
+}
+.ls-spin-container {
+	margin-top: 5%;
+    width: 100%;
+}
+.ls-spin-container .ls-spinner {
+    border: 5px solid #ffffff;
+    border-radius: 50%;
+    border-top: 5px solid #888888;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+#ls-contact-admin {
+	padding-left: 15%
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.inner-post-entry.entry-content p{
+	margin-top: 0;
+    margin-bottom: 0rem;
+}
+/* footer gallery custom */
+.penci-sidebar-content .widget .jr-insta-thumb ul.thumbnails li img,
+	.footer-widget-wrapper .widget .jr-insta-thumb ul.thumbnails li img {
+	padding: 5px;
+	width: 120px !important;
+	height: 120px !important;
+}

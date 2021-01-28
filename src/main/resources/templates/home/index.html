@@ -1,0 +1,215 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" th:with="hasHeaderBottomLine = false" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/home-layout}">
+<head th:include="~{fragments/home/head :: title('Life Stories')}">
+    <style layout:fragment="styles">
+    </style>
+    <th:block layout:fragment="others">
+    </th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="featured-area featured-style-12">
+			<div class="container">
+				<div class="penci-owl-carousel penci-owl-featured-area" data-item="2" data-desktop="2" data-tablet="2"
+					data-tabsmall="1" data-style="style-12" data-auto="true" data-autotime="4000" data-speed="600" data-loop="true">
+					
+					<div th:each="post:${topPosts}" class="item">
+						<div class="wrapper-item wrapper-item-classess">
+							<div class="penci-item-mag penci-item-1">
+								<a class="penci-image-holder owl-lazy"
+									th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+									th:href="${'/home/post/'+post.post_id}"
+									th:title="${post.title}"></a>
+								<div class="penci-slide-overlay penci-slider7-overlay">
+									<a class="overlay-link" th:href="${'/home/post/'+post.post_id}"></a>
+									<div class="penci-mag-featured-content">
+										<div class="feat-text">
+											<h3><a th:title="${post.title}"
+													th:href="${'/home/post/'+post.post_id}" th:text="${post.title}"></a></h3>
+											<div class="feat-meta">
+												<span class="feat-time"><time class="entry-date published" th:text="${post.published_at}"></time></span>
+												<span class="feat-comments"><a
+														th:href="${'/home/post/'+post.post_id}" th:text="${post.comment_cnt}+' comments'"></a></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container penci_sidebar right-sidebar">
+			<div id="main" class="penci-layout-magazine-1 penci-main-sticky-sidebar">
+				<div class="theiaStickySidebar">
+					<section class="home-featured-cat mag-cat-style-13">
+						<div class="penci-border-arrow penci-homepage-title penci-magazine-title style-4 pcalign-left">
+							<h3 class="inner-arrow"><a href="">Life</a></h3>
+						</div>
+						<div class="home-featured-cat-content style-13">
+							<ul class="penci-grid penci-grid-maglayout penci-fea-cat-style-13">
+								<li th:each="post:${lifePosts}" class="grid-style">
+									<article id="post-42" class="item hentry">
+										<div class="thumbnail">
+											<a class="penci-image-holder penci-lazy"
+												th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+												th:href="${'/home/post/'+post.post_id}" th:title="${post.title}">
+											</a>
+										</div>
+										<div class="grid-header-box">
+											<h2 class="grid-title entry-title"><a
+													th:href="${'/home/post/'+post.post_id}" th:text="${post.title}"></a></h2>
+											<div class="grid-post-box-meta">
+												<span><time class="entry-date published" th:text="${post.published_at}"></time></span>
+											</div>
+											<div class="penci-hide-tagupdated">
+												<span class="author-italic author vcard">by <a class="url fn n"
+														 th:text="${post.created_username}"></a></span>
+												<time class="entry-date published"
+													th:text="${post.published_at}"></time> </div>
+										</div>
+									</article>
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section class="home-featured-cat mag-cat-style-11">
+						<div class="penci-border-arrow penci-homepage-title penci-magazine-title style-4 pcalign-left">
+							<h3 class="inner-arrow"><a href="category/travel/index.html">Travel</a></h3>
+						</div>
+						<div class="home-featured-cat-content style-11">
+							<div th:each="post:${travelPosts}" class="mag-photo">
+								<div class="magcat-thumb hentry">
+									<a th:href="${'/home/post/'+post.post_id}" class="mag-overlay-photo"></a>
+									<a class="penci-image-holder penci-lazy"
+										th:style="${'display: inline-block; background-image: url('+post.first_thumbnail.standard_image_path+');'}"
+										th:href="${'/home/post/'+post.post_id}" th:title="${post.title}">
+									</a>
+									<div class="magcat-detail">
+										<h3 class="magcat-titlte entry-title"><a
+												th:href="${'/home/post/'+post.post_id}" th:text="${post.title}"></a>
+										</h3>
+										<div class="grid-post-box-meta mag-meta">
+											<span><time class="entry-date published" th:text="${post.published_at}"></time></span>
+										</div>
+										<div class="penci-hide-tagupdated">
+											<span class="author-italic author vcard">by <a class="url fn n" th:text="${post.created_username}"></a></span>
+											<time class="entry-date published"
+												th:text="${post.published_at}"></time> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<div class="penci-border-arrow penci-homepage-title penci-home-latest-posts style-4 pcalign-left">
+						<h3 class="inner-arrow">Latest Posts</h3>
+					</div>
+					<div class="penci-wrapper-posts-content">
+						<ul th:isLast="${initMorePosts.isLast}" class="penci-wrapper-data penci-grid" id="more-posts">
+							<li th:each="post:${initMorePosts.list}" class="list-post magazine-layout magazine-1">
+								<article class="item hentry">
+									<div class="thumbnail">
+										<div class="penci-owl-carousel penci-owl-carousel-slider penci-nav-visible"
+											data-auto="true">
+											<figure th:each="thumbnail:${post.thumbnails}" class="penci-image-holder penci-lazy"
+												th:title="${post.title}"
+												th:style="${'display: inline-block; background-image: url('+thumbnail.standard_image_path+');'}"
+												>
+											</figure>
+										</div>
+									</div>
+									<div class="content-list-right">
+										<div class="header-list-style">
+											<span class="cat"><a class="penci-cat-name"
+													th:href="${'/home/category/'+post.category_id}"
+													rel="category tag" th:text="${post.category_name}"></a></span>
+											<h2 class="entry-title grid-title"><a
+													th:href="${'/home/post/'+post.post_id}" th:text="${post.title}"></a></h2>
+											<div class="penci-hide-tagupdated">
+												<span class="author-italic author vcard">by <a class="url fn n"
+														th:text="${post.created_username}"></a></span>
+												<time class="entry-date published"
+													th:text="${post.published_at}"></time> </div>
+											<div class="grid-post-box-meta">
+												<span><time class="entry-date published"
+														th:text="${post.published_at}"></time></span>
+											</div>
+										</div>
+										<div class="item-content entry-content">
+											<p th:text="${post.summary}"></p>
+										</div>
+										<div class="penci-readmore-btn">
+											<a class="penci-btn-readmore" th:href="${'/home/post/'+post.post_id}">Read
+												more<i class="fa fa-angle-double-right"></i></a>
+										</div>
+									</div>
+								</article>
+							</li>
+						</ul>
+						<div id="loadMoreBtn" class="penci-pagination penci-ajax-more penci-ajax-home penci-ajax-more-click" page="1" pageSize="6">
+							<a class="penci-ajax-more-button">
+								<span class="ajax-more-text">Load More Posts</span>
+								<span class="ajaxdot"></span><i class="fa fa-refresh"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div th:replace="~{fragments/home/right-sidebar}"></div>
+			<!-- END CONTAINER -->
+		</div>
+	</th:block>
+</body>
+</html>
+<script>
+$(document).ready(function() {
+	$('#loadMoreBtn').click(function(e) {
+		var pageSize = parseInt($(this).attr('pageSize'));
+		var page = parseInt($(this).attr('page'));
+		$('#loadMoreBtn a').addClass('loading-posts');
+		page++;
+		$.when(loadMorePost(pageSize,page)).then(function() {
+			$('#loadMoreBtn a').removeClass('loading-posts');
+			refreshPostList($('.penci-wrapper-data .penci-owl-carousel-slider'));
+		})
+	});
+});
+function loadMorePost(pageSize,page) {
+	return $.ajax({
+		type : "GET",
+		url : "/home/api/posts?pageSize="+pageSize+"&page="+page,
+		dataType : "json",
+		success : function(data) {
+			if (data.status == 200) {
+				var result = data.data;
+				var list = result.list;
+				if(!list || list.length <1) {
+					$("#loadMoreBtn .ajax-more-text" ).text("Sorry, no more post !");
+					$("#loadMoreBtn i").remove();
+					$('#loadMoreBtn').removeClass('loading-posts');
+					setTimeout(function(){
+						$('#loadMoreBtn').remove();
+					}, 1200);
+					return;
+				}
+				list.forEach(function(e) {
+					var tmpPostLarge = $('#tmpPostLarge').html();
+					var template = Handlebars.compile(tmpPostLarge+"");
+					var post = {};
+					post = e;
+					post['postUrl'] = '/home/post/'+e.post_id;
+					tmpPostLarge = template(post);
+					$('#more-posts').append(tmpPostLarge);
+				});
+				$('#loadMoreBtn').attr('page',result.page);
+			}
+		},
+		error : function(xhr) {
+			if(xhr.responseJSON.message && xhr.responseJSON.message!='') {
+	        	alertWarning(xhr.responseJSON.message);
+	        }
+		}
+	});
+}
+</script>

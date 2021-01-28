@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+</head>
+<body class="home blog">
+	<a id="close-sidebar-nav" class="header-1"><i class="fa fa-close"></i></a>
+	
+	<!-- VERTICAL MENU -->
+	<nav th:replace="~{fragments/home/menu-vertical}"></nav>
+	<!-- END VERTICAL MENU -->
+
+	<!-- .wrapper-boxed -->
+	<div class="wrapper-boxed header-style-header-1 dark-layout-enabled">
+
+		<!-- INSTAGRAM TOP BAR  -->
+		<!-- <div th:replace="~{fragments/home/instagram-topbar}"></div> -->
+		<!-- END INSTAGRAM TOP BAR -->
+
+		<!-- HORIZONTAL MENU -->
+		<nav th:replace="~{fragments/home/menu-horizontal}"></nav>
+		<!-- END HORIZONTAL MENU -->
+		
+		<!-- Header -->
+		<header th:replace="~{fragments/home/header}"></header>
+		<!-- end Header -->
+		
+		<!-- Page Content -->
+		<th:block layout:fragment="content"></th:block>
+		<!-- End Page Content -->
+		
+		<div class="clear-footer"></div>
+		
+		<!-- WIDGET AREA -->
+		<div th:replace="~{fragments/home/widget-area}"></div>
+		<!-- END WIDGET AREA -->
+		
+		<!-- FOOTER -->
+		<footer th:replace="~{fragments/home/footer}"></footer>
+		<!-- END FOOTER -->
+	</div><!-- End .wrapper-boxed -->
+	<div id="fb-root"></div>
+	<th:block th:replace="~{fragments/home/scripts}"></th:block>
+	<th:block th:replace="~{fragments/home/handlebarsTemplate}"></th:block>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<aside id="categories-2" class="widget widget_categories">
+	<h4 class="widget-title penci-border-arrow"><span class="inner-arrow">Categories</span></h4>
+	<ul>
+		<li th:each="category:${categories}" class="cat-item">
+			<a th:href="${'/home/posts/category?categoryId='+category.category_id}">
+				[[${category.category_name}]]
+				<span class="category-item-count" th:text="'('+${category.post_cnt}+')'"></span>
+			</a>
+		</li>
+	</ul>
+</aside>

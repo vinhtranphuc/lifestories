@@ -1,0 +1,34 @@
+<div class="footer-socials-section">	
+	<ul class="footer-socials">
+		<li th:if="${socials.facebook_actived == '1'}">
+			<a th:href="${socials.facebook_url}" rel="nofollow" target="_blank">
+				<i class="fa fa-facebook"></i><span>Facebook</span>
+			</a>
+		</li>
+		<li th:if="${socials.instagram_actived == '1'}">
+			<a th:href="${socials.instagram_url}" rel="nofollow" target="_blank">
+				<i class="fa fa-instagram"></i><span>Instagram</span>
+			</a>
+		</li>
+		<li th:if="${socials.flickr_actived == '1'}">
+			<a th:href="${socials.flickr_url}" rel="nofollow" target="_blank">
+				<i class="fa fa-flickr"></i><span>Flickr</span>
+			</a>
+		</li>
+		<li th:if="${socials.youtube_actived == '1'}">
+			<a th:href="${socials.youtube_url}" rel="nofollow" target="_blank">
+				<i class="fa fa-youtube-play"></i><span>Youtube</span>
+			</a>
+		</li>
+		<li th:if="${socials.twitter_actived == '1'}">
+			<a th:href="${socials.twitter_url}" rel="nofollow" target="_blank">
+				<i class="fa fa-twitter"></i><span>Twitter</span>
+			</a>
+		</li>
+		<li th:if="${socials.pinterest_actived == '1'}">
+			<a th:href="${socials.pinterest_url}" rel="nofollow" target="_blank"><i
+					class="fa fa-pinterest"></i><span>Pinterest</span>
+			</a>
+		</li>
+	</ul>
+</div>

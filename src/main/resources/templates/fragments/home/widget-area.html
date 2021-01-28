@@ -1,0 +1,27 @@
+<div id="widget-area" class="penci-lazy" data-src="/home/images/footer-bg.jpg">
+	<div class="container">
+		<div class="footer-widget-wrapper footer-widget-style-1 last">
+			<div th:replace="~{fragments/home/aside-popular-posts}"></div>
+		</div>
+		<div class="footer-widget-wrapper footer-widget-style-1">
+			<aside id="penci_insta_slider-2" class="widget penci-insta-slider">
+				<h4 class="widget-title penci-border-arrow"><span class="inner-arrow">GALLERY</span></h4>
+				<div class="jr-insta-thumb ls-footer-gallery">
+					<ul class="no-bullet thumbnails no-border jr_col_3">
+						<li th:each="image:${gallery}">
+							<a th:href="${'/home/post/'+image.post_id}" target="_blank">
+								<img class="instagram-square-lazy penci-lazy"
+									th:src="${image.small_image_path}"
+									th:data-src="${image.small_image_path}"
+									 />
+							</a>
+						</li>
+					</ul>
+				</div>
+			</aside>
+		</div>
+		<div class="footer-widget-wrapper footer-widget-style-1">
+			<div th:replace="~{fragments/home/aside-contact-me}"></div>
+		</div>
+	</div>
+</div>
